@@ -1,0 +1,119 @@
+Almacen
+   Inventario
+	*buscar por tipo
+	*dar de baja producto -> se pide a que cuenta cargar
+	*errores en combo box pedido y proveedor
+        *hacer que se vea bonito
+   *Estadísticas
+	*graficas
+		*ventas - tipo de producto
+		*margen ganancia - tipo de producto
+   Administrar Productos
+	*Mostrar mas vendidos primero
+	*Agregar producto
+		*Seleccionar stock min -> opcion para no configurarlo
+	*Eliminar producto
+	*agregar criterios de búsqueda
+   *Productos por agotarse
+	*tabla con productos que tengan configurado el stock mínimo
+	 y esten por agotarse
+	
+Clientes
+   Agregar cliente
+	*pedir la direccion por separado
+	*pedir teléfono
+   Operaciones
+	*venta de mostrador
+	*boton para ver las compras del cliente seleccionado
+	*mostrar en la tabla
+		-nombre,referencia,saldo,compras,ultimo pago
+	*agregar boton para ver detalles de un cliente (direccion,telefono)
+	*evaluación del cliente : poner un signo de admiración a los
+	 clientes que tengan mas de 30 días sin dar un pago
+	*establecer una fórmula de calificación con base en la frecuencia de
+	 pago del cliente, su saldo y los montos de los pagos.
+	*ordenar por mejor calificación
+	*Mejorar la interfaz de venta
+	*Devolucion: 
+		-mejorar formato de la descripcion de cada compra
+		-veerificar funcionamiento por que la ultima vez tuve 			  problemas en la contabilidad
+		-mejorar interfaz
+	*agregar criterios de ordenamiento:saldo,calificacion,compras
+	*boton para modificar datos
+	*agregar boton de pago personalizado: definir a que cuenta se abona
+
+   Historial de ventas
+	*cuadrar tabla
+	*mas recientes primero
+	*quitar combo box orden
+	
+
+Proveedores
+   Registrar pedido
+	*mejorar interfaz
+	*opcion para cambiar cuenta de pago a proveedor
+   Agregar proveedor
+	*pedir direccion por separado
+   Administrar proveedores
+	*agregar boton de modificar datos
+
+Empleados
+   Agregar empleado
+	nombre
+	direcccion 
+	telefono
+	salario
+	departamento:
+		-ventas
+		-socio
+		-administración
+		-finanzas
+		-otro
+		-¿¿¿que mas??
+   Administrar empleados
+	modificar datos
+	panel con pestañas con tipos
+	en la pestaña vendedor ver cantidad de ventas
+
+Contabilidad
+   Agregar cuenta
+   Estado de resultados
+	-mejorar interfaz
+	-mostrar cuentas de gastos
+	
+   Mando financiero
+	*checar error en colores de la tabla cuentas
+	*Partida doble:
+		-corregir error en cuentas disponibles (que muestre las 		 correctas, checar cada caso por tipo de cuenta).
+		-corregir expresion regular en campo descripcion
+		-no aceptar el 0 en monto ni solo puntos
+		-verificar el simbolo de ayuda en cada caso (+) (-)
+		-error en combo box de operaciones, en casos no se selecciona
+		 el mes y te muestra todas las operaciones disponibles
+	*operaciones
+		-mejorar campo de busqueda
+		-boton para revertir operacion
+	*indicadores
+		agregar un campo a la tabla: "semaforo" un cuadro de color
+		verde, amarillo, naranja o rojo.
+	*tratar de eliminar el espacio del encabezado a las tablas
+Periodos
+   Estadísticas
+	-graficas:	
+		graficar datos de la tabla historico en la BDD
+   Histórico
+	-mejorar interfaz
+	-mostrar estado de resultados del periodo
+   Cerrar periodo
+
+Opciones
+    *definir tipos de productos
+    *definir la cuenta a la que se abona un pago rapido
+    *definir cuenta por defecto de pago a proveedores en cada pedido
+    *cerrar periodo automaticamente
+
+Reportes
+	-añadir en cada uno de los modulos opciones para exportar
+	a pdf o a excel según la información
+Salir
+   

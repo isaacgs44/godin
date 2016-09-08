@@ -62,7 +62,7 @@ public class IntCuentas extends javax.swing.JFrame {
         parte4();
     }
     
-    private void parte1(){
+    private void parte1(){ 
         final Thread t;
         t = new Thread(new Runnable() {
         Boolean bandera = true;
@@ -92,19 +92,19 @@ public class IntCuentas extends javax.swing.JFrame {
     }
     
      private void parte3(){
-          final Thread t3;
+        final Thread t3;
         t3= new Thread(new Runnable() {
         Boolean bandera = true;
         @Override
-        public void run() {
-          
+        public void run() { 
+         
         modOp = d.creaModeloOp();
         tablaOp.setModel(modOp);
         personalizaTablaOp();
         llenarCmbFech(obtenerAnios());
         seleccionarMes();
-        }
-        });
+        } 
+       });
         t3.start();
     }
        private void seleccionarMes() {
@@ -354,13 +354,14 @@ public class IntCuentas extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAlmacen = new javax.swing.JMenu();
         sMnuGestProd = new javax.swing.JMenuItem();
-        sMnuRegPed = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         mnuClientes = new javax.swing.JMenu();
         sMnuAgregarCl = new javax.swing.JMenuItem();
         sMnuRegVen = new javax.swing.JMenuItem();
         sMnuGestionarCl = new javax.swing.JMenuItem();
         mnuProveedores = new javax.swing.JMenu();
+        sMnuRegPed = new javax.swing.JMenuItem();
         sMnuAgregarProv = new javax.swing.JMenuItem();
         sMnuGestionarProv = new javax.swing.JMenuItem();
         mnuVendedores = new javax.swing.JMenu();
@@ -368,18 +369,19 @@ public class IntCuentas extends javax.swing.JFrame {
         sMnuGestVend = new javax.swing.JMenuItem();
         mnuContabilidad = new javax.swing.JMenu();
         sMnuAgregarCta = new javax.swing.JMenuItem();
-        smnuBalGen = new javax.swing.JMenuItem();
         sMnuEdoRes = new javax.swing.JMenuItem();
         sMnuFinanzas = new javax.swing.JMenuItem();
         mnuPeriodo = new javax.swing.JMenu();
+        smnuBalGen1 = new javax.swing.JMenuItem();
+        smnuBalGen = new javax.swing.JMenuItem();
         sMnuCerrPeriodo = new javax.swing.JMenuItem();
+        mnuOpciones1 = new javax.swing.JMenu();
         mnuOpciones = new javax.swing.JMenu();
-        sMnuSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mando Financiero");
         setAutoRequestFocus(false);
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(195, 242, 207));
 
         tablaOp.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         tablaOp.setModel(new javax.swing.table.DefaultTableModel(
@@ -522,6 +524,7 @@ public class IntCuentas extends javax.swing.JFrame {
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel23.setText("BALANCE GENERAL");
 
+        tablaBG.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tablaBG.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tablaBG.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -543,16 +546,18 @@ public class IntCuentas extends javax.swing.JFrame {
             }
         });
 
+        jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jMenuBar1.setMargin(new java.awt.Insets(5, 0, 5, 20));
 
+        mnuAlmacen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/almacen1.png"))); // NOI18N
         mnuAlmacen.setText("Almacen");
-        mnuAlmacen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuAlmacen.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuAlmacen.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
         sMnuGestProd.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         sMnuGestProd.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuGestProd.setText("Existencias");
+        sMnuGestProd.setText("Inventario");
         sMnuGestProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sMnuGestProdActionPerformed(evt);
@@ -560,18 +565,17 @@ public class IntCuentas extends javax.swing.JFrame {
         });
         mnuAlmacen.add(sMnuGestProd);
 
-        sMnuRegPed.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        sMnuRegPed.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuRegPed.setText("Registrar Pedido");
-        sMnuRegPed.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jMenuItem2.setText("Estadísticas");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sMnuRegPedActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        mnuAlmacen.add(sMnuRegPed);
+        mnuAlmacen.add(jMenuItem2);
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jMenuItem1.setText("Gestionar productos");
+        jMenuItem1.setText("Administrar productos");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -581,8 +585,9 @@ public class IntCuentas extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuAlmacen);
 
+        mnuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clientes.png"))); // NOI18N
         mnuClientes.setText("Clientes");
-        mnuClientes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuClientes.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
         sMnuAgregarCl.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -617,9 +622,20 @@ public class IntCuentas extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuClientes);
 
+        mnuProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/proveedores.png"))); // NOI18N
         mnuProveedores.setText("Proveedores");
-        mnuProveedores.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuProveedores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuProveedores.setMargin(new java.awt.Insets(0, 0, 0, 10));
+
+        sMnuRegPed.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        sMnuRegPed.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        sMnuRegPed.setText("Registrar Pedido");
+        sMnuRegPed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sMnuRegPedActionPerformed(evt);
+            }
+        });
+        mnuProveedores.add(sMnuRegPed);
 
         sMnuAgregarProv.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         sMnuAgregarProv.setText("Agregar Proveedor");
@@ -632,7 +648,7 @@ public class IntCuentas extends javax.swing.JFrame {
 
         sMnuGestionarProv.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
         sMnuGestionarProv.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuGestionarProv.setText("Gestionar Proveedores");
+        sMnuGestionarProv.setText("Administrar Proveedores");
         sMnuGestionarProv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sMnuGestionarProvActionPerformed(evt);
@@ -642,8 +658,9 @@ public class IntCuentas extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuProveedores);
 
-        mnuVendedores.setText("Vendedores");
-        mnuVendedores.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuVendedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/vendedores.png"))); // NOI18N
+        mnuVendedores.setText("Empleados");
+        mnuVendedores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuVendedores.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
         sMnuAgVend.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -657,7 +674,7 @@ public class IntCuentas extends javax.swing.JFrame {
 
         sMnuGestVend.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
         sMnuGestVend.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuGestVend.setText("Gestionar vendedores");
+        sMnuGestVend.setText("Administrar vendedores");
         sMnuGestVend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sMnuGestVendActionPerformed(evt);
@@ -667,8 +684,9 @@ public class IntCuentas extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuVendedores);
 
+        mnuContabilidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/contabilidad.png"))); // NOI18N
         mnuContabilidad.setText("Contabilidad");
-        mnuContabilidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuContabilidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuContabilidad.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
         sMnuAgregarCta.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -679,16 +697,6 @@ public class IntCuentas extends javax.swing.JFrame {
             }
         });
         mnuContabilidad.add(sMnuAgregarCta);
-
-        smnuBalGen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        smnuBalGen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        smnuBalGen.setText("Balance General");
-        smnuBalGen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                smnuBalGenActionPerformed(evt);
-            }
-        });
-        mnuContabilidad.add(smnuBalGen);
 
         sMnuEdoRes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         sMnuEdoRes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -712,9 +720,29 @@ public class IntCuentas extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuContabilidad);
 
+        mnuPeriodo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/estadisticas.png"))); // NOI18N
         mnuPeriodo.setText("Periodos");
-        mnuPeriodo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuPeriodo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuPeriodo.setMargin(new java.awt.Insets(0, 0, 0, 10));
+
+        smnuBalGen1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        smnuBalGen1.setText("Estadísticas");
+        smnuBalGen1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smnuBalGen1ActionPerformed(evt);
+            }
+        });
+        mnuPeriodo.add(smnuBalGen1);
+
+        smnuBalGen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        smnuBalGen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        smnuBalGen.setText("Histórico");
+        smnuBalGen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smnuBalGenActionPerformed(evt);
+            }
+        });
+        mnuPeriodo.add(smnuBalGen);
 
         sMnuCerrPeriodo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         sMnuCerrPeriodo.setText("Cerrar periodo");
@@ -727,20 +755,16 @@ public class IntCuentas extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuPeriodo);
 
-        mnuOpciones.setText("Opciones");
-        mnuOpciones.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuOpciones1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ajustes.png"))); // NOI18N
+        mnuOpciones1.setText("Opciones");
+        mnuOpciones1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuOpciones1.setMargin(new java.awt.Insets(0, 0, 0, 10));
+        jMenuBar1.add(mnuOpciones1);
+
+        mnuOpciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/encender-esquema-semicirculo_318-34691.png"))); // NOI18N
+        mnuOpciones.setText("Salir");
+        mnuOpciones.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuOpciones.setMargin(new java.awt.Insets(0, 0, 0, 10));
-
-        sMnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        sMnuSalir.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuSalir.setText("Salir");
-        sMnuSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sMnuSalirActionPerformed(evt);
-            }
-        });
-        mnuOpciones.add(sMnuSalir);
-
         jMenuBar1.add(mnuOpciones);
 
         setJMenuBar(jMenuBar1);
@@ -751,67 +775,69 @@ public class IntCuentas extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addComponent(jLabel5))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(121, 121, 121)
-                        .addComponent(jLabel23)))
-                .addGap(12, 12, 12)
+                        .addComponent(jLabel23))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(376, 376, 376)
+                                .addComponent(cmbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(75, 75, 75)
+                                        .addComponent(txtBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnBuscar1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnMostrarTodo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnAddCta, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnAddSubCta, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel21)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnborraCta, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel22)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnOperacion)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(btnOp))
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(113, 113, 113)
+                                .addComponent(jLabel18)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(75, 75, 75)
-                                .addComponent(txtBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBuscar1)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnMostrarTodo)
+                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBuscar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAddCta, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAddSubCta, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel21)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnborraCta, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel22)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnOperacion)
-                                .addGap(26, 26, 26)
-                                .addComponent(btnOp))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(jLabel18))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
-                        .addComponent(jLabel5)))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(mostrartodoOp))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cmbAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(mostrartodoOp))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -853,13 +879,13 @@ public class IntCuentas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(mostrartodoOp)
                             .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar))
-                        .addGap(0, 3, Short.MAX_VALUE))
+                            .addComponent(btnBuscar)
+                            .addComponent(mostrartodoOp))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel18))
@@ -1166,10 +1192,6 @@ public class IntCuentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbAnioActionPerformed
 
-    private void sMnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuSalirActionPerformed
-        System.exit(1);
-    }//GEN-LAST:event_sMnuSalirActionPerformed
-
     private void sMnuCerrPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuCerrPeriodoActionPerformed
         int confirmado = JOptionPane.showConfirmDialog(
             this, "¿Lo confirmas?");
@@ -1194,12 +1216,6 @@ public class IntCuentas extends javax.swing.JFrame {
         c.setVisible(true);
         dispose();
     }//GEN-LAST:event_sMnuFinanzasActionPerformed
-
-    private void sMnuAgregarCtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuAgregarCtaActionPerformed
-        IntAgregarCta v = new IntAgregarCta();
-        v.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_sMnuAgregarCtaActionPerformed
 
     private void sMnuRegVenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuRegVenActionPerformed
         IntHistoVenta v = new IntHistoVenta();
@@ -1303,6 +1319,20 @@ public class IntCuentas extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_smnuBalGenActionPerformed
 
+    private void sMnuAgregarCtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuAgregarCtaActionPerformed
+        IntAgregarCta v = new IntAgregarCta();
+        v.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_sMnuAgregarCtaActionPerformed
+
+    private void smnuBalGen1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuBalGen1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_smnuBalGen1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1327,6 +1357,7 @@ public class IntCuentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1335,6 +1366,7 @@ public class IntCuentas extends javax.swing.JFrame {
     private javax.swing.JMenu mnuClientes;
     private javax.swing.JMenu mnuContabilidad;
     private javax.swing.JMenu mnuOpciones;
+    private javax.swing.JMenu mnuOpciones1;
     private javax.swing.JMenu mnuPeriodo;
     private javax.swing.JMenu mnuProveedores;
     private javax.swing.JMenu mnuVendedores;
@@ -1352,8 +1384,8 @@ public class IntCuentas extends javax.swing.JFrame {
     private javax.swing.JMenuItem sMnuGestionarProv;
     private javax.swing.JMenuItem sMnuRegPed;
     private javax.swing.JMenuItem sMnuRegVen;
-    private javax.swing.JMenuItem sMnuSalir;
     private javax.swing.JMenuItem smnuBalGen;
+    private javax.swing.JMenuItem smnuBalGen1;
     private javax.swing.JTable tablaBG;
     private javax.swing.JTable tablaCta;
     private javax.swing.JTable tablaOp;

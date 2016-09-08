@@ -168,6 +168,42 @@ public class LibroMayor {
          return null;
     }
 
+    public Cuenta obtenerCuenta(String idCuenta, String opc,Query query) {
+        ResultSet res = null;
+       
+        String cond;
+        switch(opc){
+            case "c":
+                cond = "WHERE id_cta = '" + idCuenta + "'";
+                query.seleccion("*","cuenta",cond);
+            break;
+            
+            case "s":
+                cond = "WHERE id_sub = '" + idCuenta + "'";
+                query.seleccion("*","subcuenta",cond);
+            break;
+        }
+        
+        res = query.getRes();
+        try {
+            while (res.next()){
+                Cuenta c = new Cuenta();
+                c.setId(res.getString(1));
+                c.setNombre(res.getString(2));
+                c.setDeber(Double.parseDouble(res.getString(3)));
+                c.setHaber(Double.parseDouble(res.getString(4)));
+                c.setSaldo(Double.parseDouble(res.getString(5)));
+                return c;
+            }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(LibroMayor.class.getName()).log(Level.SEVERE, null, ex);
+           
+        }
+         return null;
+    }
+
+    
     //obtener cuenta complementaria para el tipo de operacion
     public List<Cuenta> obtenerCuentasComp(String idCuenta, String tipo) { 
         this.cuentas.clear();

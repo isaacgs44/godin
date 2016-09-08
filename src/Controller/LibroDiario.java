@@ -87,20 +87,21 @@ public class LibroDiario {
             int i=0;
             LibroMayor m = new LibroMayor();
             System.out.println(" - " + operaciones.size());
+            query = new Query();
             for (Operacion o : operaciones) {
                 Cuenta ctaA;
                 Cuenta ctaC;
                   if(o.getCtaAbono().length() > 6){
-                      ctaA = m.obtenerCuenta(o.getCtaAbono(), "s");
+                      ctaA = m.obtenerCuenta(o.getCtaAbono(), "s",query);
                   }else if (o.getCtaAbono().length() == 5){
-                      ctaA = m.obtenerCuenta(o.getCtaAbono(), "c");
+                      ctaA = m.obtenerCuenta(o.getCtaAbono(), "c",query);
                   }else{
                       ctaA =null;
                   }
                   if(o.getCtaCargo().length() > 6){
-                      ctaC = m.obtenerCuenta(o.getCtaCargo(), "s");
+                      ctaC = m.obtenerCuenta(o.getCtaCargo(), "s",query);
                   }else if (o.getCtaCargo().length() == 5){
-                      ctaC = m.obtenerCuenta(o.getCtaCargo(), "c");
+                      ctaC = m.obtenerCuenta(o.getCtaCargo(), "c",query);
                   }else{
                       ctaC = null;
                   }
@@ -122,6 +123,7 @@ public class LibroDiario {
                   modelo1.setValueAt(df.format(o.getMonto()),i,5); 
                   i++;
             }
+            query.Desconectar();
             return modelo1;
     }
     

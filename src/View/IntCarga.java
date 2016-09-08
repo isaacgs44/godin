@@ -5,21 +5,12 @@
  */
 package View;
 
-import java.awt.Color;
 import java.awt.Cursor;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import sun.rmi.runtime.Log;
 
 /**
  *
@@ -32,7 +23,6 @@ public class IntCarga extends javax.swing.JFrame {
      */
     public IntCarga() {
         initComponents();
-       // if(inicioXampp()){
         setIconImage(new ImageIcon(getClass().getResource("/img/29.png")).getImage());
         ((JPanel)getContentPane()).setOpaque(fal­se); 
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -41,32 +31,7 @@ public class IntCarga extends javax.swing.JFrame {
         monitor();
         
     }
-    
-    private Boolean inicioXampp() {
-     
-           try {
-            Process proc = Runtime.getRuntime().exec("./xampp1.sh"); //Whatever you want to execute
-            BufferedReader read = new BufferedReader(new InputStreamReader(
-                    proc.getInputStream()));
-            try {
-                proc.waitFor();
-            } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
-            }
-            while (read.ready()) {
-                System.out.println(read.readLine());
-                 return true;
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-          return false;
-	}
-       
-      
-
-    
-    
+         
     
     private void monitor(){
         final Thread t;
@@ -93,15 +58,8 @@ public class IntCarga extends javax.swing.JFrame {
                         //Utilizamos un while para emular el valor mínimo y máximo
                         //En este caso 0 - 100
                         while(x <= 100){
-                            //Asignamos valor a nuestro JProgressBar por cada siclo del bucle
                             barraP.setValue(x);
-                            //Valor que se mostrará en el JTextArea
                             txtCarga.setText("Progreso " + x + "%...\n");
-                            //Hacemos una parada de medio segundo por cada siclo while
-                            try {
-                                Thread.sleep(5);
-                            } catch (InterruptedException e) {
-                            }
                             //Se incrementa el valor de x
                             x++;
                         }
@@ -212,22 +170,17 @@ public class IntCarga extends javax.swing.JFrame {
             //Implementamos el método run()
             @Override
             public void run() {
-                //Permite mostrar el valor del progreso
                 barraP.setStringPainted(true);
                 int x = 1;
                 //Utilizamos un while para emular el valor mínimo y máximo
                 //En este caso 0 - 100
                 while(x <= 100){
-                    //Asignamos valor a nuestro JProgressBar por cada siclo del bucle
                     barraP.setValue(x);
-                    //Valor que se mostrará en el JTextArea
                     txtCarga.setText("Progreso " + x + "%...\n");
-                    //Hacemos una parada de medio segundo por cada siclo while
-                    try {
+                  /*  try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
-                    }
-                    //Se incrementa el valor de x
+                    }*/
                     x++;
                 }
             }
