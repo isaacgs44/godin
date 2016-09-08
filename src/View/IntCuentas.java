@@ -14,18 +14,36 @@ import Controller.Operacion;
 import Controller.Secretaria;
 import Controller.TablaOp;
 import Controller.Utilidades;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.basic.BasicMenuBarUI;
+import javax.swing.plaf.basic.BasicMenuItemUI;
+import javax.swing.plaf.basic.BasicMenuUI;
+import javax.swing.plaf.basic.BasicPopupMenuUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
@@ -36,23 +54,27 @@ import javax.swing.table.TableModel;
  * @author lenovo
  */
 public class IntCuentas extends javax.swing.JFrame {
+
     private LibroMayor m;
     private TableModel modelo;
     private TableModel modBalGen;
     private TableModel modOp;
     private BalanceGeneral balGen;
     private LibroDiario d;
-    private List  fechas;
+    private List fechas;
     private TableModel modInd;
     private Boolean done;
+    private JPanel fondo;
+
     /**
      * Creates new form IntCuentas
      */
     public IntCuentas() {
         done = false;
+
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/img/29.png")).getImage());
-        ((JPanel)getContentPane()).setOpaque(fal­se); 
+        ((JPanel) getContentPane()).setOpaque(fal­se);
         d = new LibroDiario();
         m = new LibroMayor();
         balGen = new BalanceGeneral();
@@ -60,213 +82,338 @@ public class IntCuentas extends javax.swing.JFrame {
         parte1();
         parte2();
         parte4();
+
+        //cambiar de color al menu
+        jMenuBar1.setUI(new BasicMenuBarUI() {
+            public void paint(Graphics g, JComponent c) {
+                g.setColor(Color.decode("#3c3b37")); //gris obscuro
+                g.fillRect(0, 0, c.getWidth(), c.getHeight());
+                c.setSize(c.getWidth(), 40);
+            }
+        });
+
+        mnuAlmacen.setUI(new BasicMenuUI() {
+            @Override
+            protected void paintMenuItem(Graphics g, JComponent c, Icon checkIcon, Icon arrowIcon, Color background, Color foreground, int defaultTextIconGap) {
+                c.setBackground(Color.decode("#3c3b37")); //gris claro
+                c.setSize(c.getWidth(), 40);
+                super.paintMenuItem(g, c, checkIcon, arrowIcon, Color.decode("#777570"), Color.white, defaultTextIconGap); //To change body of generated methods, choose Tools | Templates.                
+            }
+        });
+
+        mnuAlmacen.getPopupMenu().setUI(new BasicPopupMenuUI() {
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                super.paint(g, c); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        });
+        sMnuInventario.setUI(new BasicMenuItemUI() {
+            @Override
+            protected void paintMenuItem(Graphics g, JComponent c, Icon checkIcon, Icon arrowIcon, Color background, Color foreground, int defaultTextIconGap) {
+                c.setBackground(Color.decode("#b6b4ab")); //gris claro
+                super.paintMenuItem(g, c, checkIcon, arrowIcon, Color.decode("#3c3b37"), Color.white, defaultTextIconGap); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        sMnuInventario.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                System.out.println("entered");
+                sMnuInventario.setForeground(Color.white);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                System.out.println("exited");
+                sMnuInventario.setForeground(Color.decode("#3c3b37"));
+            }
+        });
+        smnuEstadisticas.setUI(new BasicMenuItemUI() {
+            @Override
+            protected void paintMenuItem(Graphics g, JComponent c, Icon checkIcon, Icon arrowIcon, Color background, Color foreground, int defaultTextIconGap) {
+                c.setBackground(Color.decode("#b6b4ab")); //gris claro
+                super.paintMenuItem(g, c, checkIcon, arrowIcon, Color.decode("#3c3b37"), Color.white, defaultTextIconGap); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        smnuAdminP.setUI(new BasicMenuItemUI() {
+            @Override
+            protected void paintMenuItem(Graphics g, JComponent c, Icon checkIcon, Icon arrowIcon, Color background, Color foreground, int defaultTextIconGap) {
+                c.setBackground(Color.decode("#b6b4ab")); //gris claro
+                super.paintMenuItem(g, c, checkIcon, arrowIcon, Color.decode("#3c3b37"), Color.white, defaultTextIconGap); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        mnuAlmacen.setForeground(Color.white);
+        mnuClientes.setForeground(Color.white);
+        mnuContabilidad.setForeground(Color.white);
+        mnuOpciones.setForeground(Color.white);
+        mnuOpciones1.setForeground(Color.white);
+        mnuPeriodo.setForeground(Color.white);
+        mnuProveedores.setForeground(Color.white);
+        mnuVendedores.setForeground(Color.white);
+
+        //mnuAlmacen.setBackground(Color.white);
+
+        fondo = new JPanel() {
+            public void paint(Graphics g) {
+                Dimension tamanio = getSize();
+                ImageIcon imagenFondo = new ImageIcon(getClass().getResource("/img/29.png"));
+                g.drawImage(imagenFondo.getImage(), 0, 0, tamanio.width, tamanio.height, null);
+                setOpaque(false);
+                super.paintComponent(g);
+
+            }
+        };
+       fondo.add(getContentPane());
+        this.setContentPane(fondo);
+        getContentPane().revalidate();
+        getContentPane().repaint();
+        repaint();
+        revalidate();
+        
     }
+
+
     
-    private void parte1(){ 
+
+    private void parte1() {
         final Thread t;
         t = new Thread(new Runnable() {
-        Boolean bandera = true;
-        @Override
-        public void run() {
-            modelo = m.creaModeloCtas(m.obtenerCuentasYsub());
-            tablaCta.setModel(modelo);
-            personalizaTablaCts();
-        }
-            
+            Boolean bandera = true;
+
+            @Override
+            public void run() {
+                modelo = m.creaModeloCtas(m.obtenerCuentasYsub());
+                tablaCta.setModel(modelo);
+                personalizaTablaCts();
+            }
+
         });
         t.start();
     }
-    
-    private void parte2(){
-          final Thread t2;
-        t2= new Thread(new Runnable() {
-        Boolean bandera = true;
-        @Override
-        public void run() {
-              modBalGen = balGen.creaModeloTab(balGen);
-            tablaBG.setModel(modBalGen);
-            personalizaTablaBG();
-        }
+
+    private void parte2() {
+        final Thread t2;
+        t2 = new Thread(new Runnable() {
+            Boolean bandera = true;
+
+            @Override
+            public void run() {
+                modBalGen = balGen.creaModeloTab(balGen);
+                tablaBG.setModel(modBalGen);
+                personalizaTablaBG();
+            }
         });
         t2.start();
     }
-    
-     private void parte3(){
+
+    private void parte3() {
         final Thread t3;
-        t3= new Thread(new Runnable() {
-        Boolean bandera = true;
-        @Override
-        public void run() { 
-         
-        modOp = d.creaModeloOp();
-        tablaOp.setModel(modOp);
-        personalizaTablaOp();
-        llenarCmbFech(obtenerAnios());
-        seleccionarMes();
-        } 
-       });
+        t3 = new Thread(new Runnable() {
+            Boolean bandera = true;
+
+            @Override
+            public void run() {
+
+                modOp = d.creaModeloOp();
+                tablaOp.setModel(modOp);
+                personalizaTablaOp();
+                llenarCmbFech(obtenerAnios());
+                seleccionarMes();
+            }
+        });
         t3.start();
     }
-       private void seleccionarMes() {
-                  Utilidades uts = new Utilidades();
-                  switch(uts.obtMes()){
-                      case 1:
-                          cmbMes.setSelectedIndex(0);
-                      break;
-                      case 2:
-                          cmbMes.setSelectedIndex(1);
-                      break;
-                      case 3:
-                          cmbMes.setSelectedIndex(2);
-                      break;
-                      case 4:
-                          cmbMes.setSelectedIndex(3);
-                      break;
-                      case 5:
-                          cmbMes.setSelectedIndex(4);
-                      break;
-                      case 6:
-                          cmbMes.setSelectedIndex(5);
-                      break;
-                      case 7:
-                          cmbMes.setSelectedIndex(6);
-                      break;
-                      case 8:
-                          cmbMes.setSelectedIndex(7);
-                      break;
-                      case 9:
-                          cmbMes.setSelectedIndex(8);
-                      break;
-                      case 10:
-                          cmbMes.setSelectedIndex(9);
-                      break;
-                      case 11:
-                          cmbMes.setSelectedIndex(10);
-                      break;
-                      case 12:
-                          cmbMes.setSelectedIndex(11);
-                      break;
-                  }
-              }
-      private void parte4(){
-          final Thread t4;
-        t4= new Thread(new Runnable() {
-        Boolean bandera = true;
-        @Override
-        public void run() {
-   
-       
-        Indicadores indicadores = new Indicadores();
-        modInd = indicadores.creaModeloInd();
-        tblInd.setModel(modInd);
-        personalizaTablaInd();
+
+    private void seleccionarMes() {
+        Utilidades uts = new Utilidades();
+        switch (uts.obtMes()) {
+            case 1:
+                cmbMes.setSelectedIndex(0);
+                break;
+            case 2:
+                cmbMes.setSelectedIndex(1);
+                break;
+            case 3:
+                cmbMes.setSelectedIndex(2);
+                break;
+            case 4:
+                cmbMes.setSelectedIndex(3);
+                break;
+            case 5:
+                cmbMes.setSelectedIndex(4);
+                break;
+            case 6:
+                cmbMes.setSelectedIndex(5);
+                break;
+            case 7:
+                cmbMes.setSelectedIndex(6);
+                break;
+            case 8:
+                cmbMes.setSelectedIndex(7);
+                break;
+            case 9:
+                cmbMes.setSelectedIndex(8);
+                break;
+            case 10:
+                cmbMes.setSelectedIndex(9);
+                break;
+            case 11:
+                cmbMes.setSelectedIndex(10);
+                break;
+            case 12:
+                cmbMes.setSelectedIndex(11);
+                break;
         }
-            
+    }
+
+    private void parte4() {
+        final Thread t4;
+        t4 = new Thread(new Runnable() {
+            Boolean bandera = true;
+
+            @Override
+            public void run() {
+
+                Indicadores indicadores = new Indicadores();
+                modInd = indicadores.creaModeloInd();
+                tblInd.setModel(modInd);
+                personalizaTablaInd();
+            }
+
         });
         t4.start();
     }
-    
-    
-     private void llenarCmbFech(List fecha){
-       String[] cadena = new String[fecha.size()];
-        int i=0;
-        for(Object f : fecha){
-           cadena[i]= f.toString();
+
+    private void llenarCmbFech(List fecha) {
+        String[] cadena = new String[fecha.size()];
+        int i = 0;
+        for (Object f : fecha) {
+            cadena[i] = f.toString();
             i++;
         }
         cmbAnio.setModel(new DefaultComboBoxModel((Object[]) cadena));
-         done = true;
+        done = true;
     }
-      private Boolean comprobarAnios(Operacion op){
-          if(this.fechas != null){
-            for(Object o: this.fechas){
-              if(o.toString().equals(op.getFecha().substring(0,4))){
-                  return false;
-              }
-            } return true;
-          }else{
-              return true;
-          }
-      }
-      public List obtenerAnios(){
-          List <Operacion> ops;
-          fechas = new ArrayList <>();
-          LibroDiario d = new LibroDiario();
-          ops = d.obtenerOperaciones();
-          for(Operacion o: ops){
-              if(comprobarAnios(o)){
-                  fechas.add(o.getFecha().substring(0,4));
-              }
-          }
-          return fechas;
-      }
-    
-      private void personalizaTablaBG() {
-         //cambiar colores de tabla
-       tablaBG.setDefaultRenderer(Object.class, 
-               new DefaultTableCellRenderer(){
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column){
-                           if(row ==0){
-                               if (row == 0 && column > 1){
-                                   setBackground(Color.decode("#FFA400"));
-                               }else{
-                                   setBackground(Color.decode("#6E81FF"));
-                               }
-                               setForeground(Color.WHITE);
-                               setSize(300, 20);
-                           }else{
-                               if(row%2 == 0){
-                                   setBackground(Color.decode("#DFF7FF")); setForeground(Color.BLACK);
-                               }else{
-                                   setBackground(Color.decode("#CEE7EF")); setForeground(Color.BLACK);
-                               }
-                           }
-                       super.getTableCellRendererComponent(table, value, selected, focused, row, column);
-                       return this;
-                    }
-               });
-       tablaBG.getTableHeader().setVisible(false); // ocultar titulos de columna Jtable
-       tablaBG.setRowHeight(20);
-    }
-      
-     private void personalizaTablaInd() {
-         //cambiar colores de tabla
-       tblInd.setDefaultRenderer(Object.class, 
-               new DefaultTableCellRenderer(){
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column){
-                           
-                               if(row%2 == 0){
-                                   setBackground(Color.decode("#DFF7FF")); setForeground(Color.BLACK);
-                               }else{
-                                   setBackground(Color.decode("#CEE7EF")); setForeground(Color.BLACK);
-                               }
-                           
-                       super.getTableCellRendererComponent(table, value, selected, focused, row, column);
-                       return this;
-                    }
-               });
-       tblInd.getTableHeader().setVisible(false); // ocultar titulos de columna Jtable
-       tblInd.setRowHeight(20);
-      
-    }
-    
-    private void personalizaTablaOp(){
-         // modificar ancho de columnas de acuerdo al contenido
-        tablaOp.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-         for (int i = 0; i < tablaOp.getColumnCount(); i++) {
-            DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaOp.getColumnModel();
-            TableColumn col = colModel.getColumn(i);           
-            switch (i){
-                case 0 :  col.setPreferredWidth(50); break;
-                case 1 :  col.setPreferredWidth(80); break;
-                case 2 :  col.setPreferredWidth(132); break;
-                case 3 :  col.setPreferredWidth(150); break;
-                case 4 :  col.setPreferredWidth(150); break;
-                case 5 :  col.setPreferredWidth(115); break;
-            }        
-            
+
+    private Boolean comprobarAnios(Operacion op) {
+        if (this.fechas != null) {
+            for (Object o : this.fechas) {
+                if (o.toString().equals(op.getFecha().substring(0, 4))) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return true;
         }
-         
+    }
+
+    public List obtenerAnios() {
+        List<Operacion> ops;
+        fechas = new ArrayList<>();
+        LibroDiario d = new LibroDiario();
+        ops = d.obtenerOperaciones();
+        for (Operacion o : ops) {
+            if (comprobarAnios(o)) {
+                fechas.add(o.getFecha().substring(0, 4));
+            }
+        }
+        return fechas;
+    }
+
+    private void personalizaTablaBG() {
+        //cambiar colores de tabla
+        tablaBG.setDefaultRenderer(Object.class,
+                new DefaultTableCellRenderer() {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {
+                if (row == 0) {
+                    if (row == 0 && column > 1) {
+                        setBackground(Color.decode("#FFA400"));
+                    } else {
+                        setBackground(Color.decode("#6E81FF"));
+                    }
+                    setForeground(Color.WHITE);
+                    setSize(300, 20);
+                } else if (row % 2 == 0) {
+                    setBackground(Color.decode("#DFF7FF"));
+                    setForeground(Color.BLACK);
+                } else {
+                    setBackground(Color.decode("#CEE7EF"));
+                    setForeground(Color.BLACK);
+                }
+                super.getTableCellRendererComponent(table, value, selected, focused, row, column);
+                return this;
+            }
+        });
+        tablaBG.getTableHeader().setVisible(false); // ocultar titulos de columna Jtable
+        tablaBG.setRowHeight(20);
+    }
+
+    private void personalizaTablaInd() {
+        //cambiar colores de tabla
+        tblInd.setDefaultRenderer(Object.class,
+                new DefaultTableCellRenderer() {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {
+
+                if (row % 2 == 0) {
+                    setBackground(Color.decode("#DFF7FF"));
+                    setForeground(Color.BLACK);
+                } else {
+                    setBackground(Color.decode("#CEE7EF"));
+                    setForeground(Color.BLACK);
+                }
+
+                super.getTableCellRendererComponent(table, value, selected, focused, row, column);
+                return this;
+            }
+        });
+        tblInd.getTableHeader().setVisible(false); // ocultar titulos de columna Jtable
+        tblInd.setRowHeight(20);
+
+    }
+
+    private void personalizaTablaOp() {
+        // modificar ancho de columnas de acuerdo al contenido
+        tablaOp.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        for (int i = 0; i < tablaOp.getColumnCount(); i++) {
+            DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaOp.getColumnModel();
+            TableColumn col = colModel.getColumn(i);
+            switch (i) {
+                case 0:
+                    col.setPreferredWidth(50);
+                    break;
+                case 1:
+                    col.setPreferredWidth(80);
+                    break;
+                case 2:
+                    col.setPreferredWidth(132);
+                    break;
+                case 3:
+                    col.setPreferredWidth(150);
+                    break;
+                case 4:
+                    col.setPreferredWidth(150);
+                    break;
+                case 5:
+                    col.setPreferredWidth(115);
+                    break;
+            }
+
+        }
+
         tablaOp.setRowHeight(15);
         tablaOp.getColumn(tablaOp.getColumnName(0)).setHeaderValue("ID");
         tablaOp.getColumn(tablaOp.getColumnName(1)).setHeaderValue("Fecha");
@@ -275,43 +422,51 @@ public class IntCuentas extends javax.swing.JFrame {
         tablaOp.getColumn(tablaOp.getColumnName(4)).setHeaderValue("Cuenta Abono");
         tablaOp.getColumn(tablaOp.getColumnName(5)).setHeaderValue("Monto");
     }
-    
-    private void personalizaTablaCts(){
-         // modificar ancho de columnas de acuerdo al contenido
+
+    private void personalizaTablaCts() {
+        // modificar ancho de columnas de acuerdo al contenido
         tablaCta.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-         for (int i = 0; i < tablaCta.getColumnCount(); i++) {
+        for (int i = 0; i < tablaCta.getColumnCount(); i++) {
             DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaCta.getColumnModel();
-            TableColumn col = colModel.getColumn(i);           
-            switch (i){
-                case 0 :  col.setPreferredWidth(130); break;
-                case 1 :  col.setPreferredWidth(267); break;
-                case 2 :  col.setPreferredWidth(130); break;
-                case 3 :  col.setPreferredWidth(143); break;
-            }                       
+            TableColumn col = colModel.getColumn(i);
+            switch (i) {
+                case 0:
+                    col.setPreferredWidth(130);
+                    break;
+                case 1:
+                    col.setPreferredWidth(267);
+                    break;
+                case 2:
+                    col.setPreferredWidth(130);
+                    break;
+                case 3:
+                    col.setPreferredWidth(143);
+                    break;
+            }
         }
         tablaCta.setRowHeight(30);
         tablaCta.getColumn(tablaCta.getColumnName(0)).setHeaderValue("ID");
         tablaCta.getColumn(tablaCta.getColumnName(1)).setHeaderValue("Nombre");
         tablaCta.getColumn(tablaCta.getColumnName(2)).setHeaderValue("Tipo");
         tablaCta.getColumn(tablaCta.getColumnName(3)).setHeaderValue("Saldo");
-        
-        tablaCta.setDefaultRenderer(Object.class,   //cambiar colores de tabla
-               new DefaultTableCellRenderer(){
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column){
-                       if(String.valueOf(table.getValueAt(row,0)).length() == 5)  setBackground(Color.decode("#CAD1FF"));
-                       else  setBackground(Color.decode("#DFF7FF"));
-                       if(table.getValueAt(row, 3).toString().length() > 0){
-                           this.setHorizontalAlignment(SwingConstants.RIGHT);
-                       }
-                       super.getTableCellRendererComponent(table, value, selected, focused, row, column);
-                       return this;
-                    }
-               });
+
+        tablaCta.setDefaultRenderer(Object.class, //cambiar colores de tabla
+                new DefaultTableCellRenderer() {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {
+                if (String.valueOf(table.getValueAt(row, 0)).length() == 5) {
+                    setBackground(Color.decode("#CAD1FF"));
+                } else {
+                    setBackground(Color.decode("#DFF7FF"));
+                }
+                if (table.getValueAt(row, 3).toString().length() > 0) {
+                    this.setHorizontalAlignment(SwingConstants.RIGHT);
+                }
+                super.getTableCellRendererComponent(table, value, selected, focused, row, column);
+                return this;
+            }
+        });
     }
-    
 
-
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -353,9 +508,9 @@ public class IntCuentas extends javax.swing.JFrame {
         btnOperacion = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAlmacen = new javax.swing.JMenu();
-        sMnuGestProd = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        sMnuInventario = new javax.swing.JMenuItem();
+        smnuEstadisticas = new javax.swing.JMenuItem();
+        smnuAdminP = new javax.swing.JMenuItem();
         mnuClientes = new javax.swing.JMenu();
         sMnuAgregarCl = new javax.swing.JMenuItem();
         sMnuRegVen = new javax.swing.JMenuItem();
@@ -381,7 +536,7 @@ public class IntCuentas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mando Financiero");
         setAutoRequestFocus(false);
-        setBackground(new java.awt.Color(195, 242, 207));
+        setUndecorated(true);
 
         tablaOp.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         tablaOp.setModel(new javax.swing.table.DefaultTableModel(
@@ -546,42 +701,45 @@ public class IntCuentas extends javax.swing.JFrame {
             }
         });
 
+        jMenuBar1.setBorderPainted(false);
         jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jMenuBar1.setMargin(new java.awt.Insets(5, 0, 5, 20));
+        jMenuBar1.setMargin(new java.awt.Insets(10, 10, 10, 5));
+        jMenuBar1.setBackground(Color.BLACK);
 
+        mnuAlmacen.setBackground(Color.GRAY);
         mnuAlmacen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/almacen1.png"))); // NOI18N
         mnuAlmacen.setText("Almacen");
         mnuAlmacen.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuAlmacen.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
-        sMnuGestProd.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        sMnuGestProd.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuGestProd.setText("Inventario");
-        sMnuGestProd.addActionListener(new java.awt.event.ActionListener() {
+        sMnuInventario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        sMnuInventario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        sMnuInventario.setText("Inventario");
+        sMnuInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sMnuGestProdActionPerformed(evt);
+                sMnuInventarioActionPerformed(evt);
             }
         });
-        mnuAlmacen.add(sMnuGestProd);
+        mnuAlmacen.add(sMnuInventario);
 
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jMenuItem2.setText("Estadísticas");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        smnuEstadisticas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        smnuEstadisticas.setText("Estadísticas");
+        smnuEstadisticas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                smnuEstadisticasActionPerformed(evt);
             }
         });
-        mnuAlmacen.add(jMenuItem2);
+        mnuAlmacen.add(smnuEstadisticas);
 
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jMenuItem1.setText("Administrar productos");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        smnuAdminP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        smnuAdminP.setText("Administrar productos");
+        smnuAdminP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                smnuAdminPActionPerformed(evt);
             }
         });
-        mnuAlmacen.add(jMenuItem1);
+        mnuAlmacen.add(smnuAdminP);
 
         jMenuBar1.add(mnuAlmacen);
 
@@ -765,6 +923,11 @@ public class IntCuentas extends javax.swing.JFrame {
         mnuOpciones.setText("Salir");
         mnuOpciones.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuOpciones.setMargin(new java.awt.Insets(0, 0, 0, 10));
+        mnuOpciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuOpcionesMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(mnuOpciones);
 
         setJMenuBar(jMenuBar1);
@@ -896,136 +1059,137 @@ public class IntCuentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddSubCtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSubCtaActionPerformed
-          if(tablaCta.getSelectedRow() != -1){
+        if (tablaCta.getSelectedRow() != -1) {
             Integer fila = tablaCta.getSelectedRow();
-            if(tablaCta.getValueAt(fila,0).toString().length() < 6){
-                if(tablaCta.getValueAt(fila, 3).toString().equals("0")){
-                        Cuenta c = new Cuenta();
-                        String nombre = JOptionPane.showInputDialog (this, "Nombre: ", "Agregar Sub Cuenta",JOptionPane.INFORMATION_MESSAGE);
-                        System.out.println("nombre: " + nombre);
-                    if(nombre != null){
-                        if(c.agregarSubCta(tablaCta.getValueAt(fila, 0).toString(), nombre)){
-                            JOptionPane.showOptionDialog(this, "subcuenta agregada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");                     
+            if (tablaCta.getValueAt(fila, 0).toString().length() < 6) {
+                if (tablaCta.getValueAt(fila, 3).toString().equals("0")) {
+                    Cuenta c = new Cuenta();
+                    String nombre = JOptionPane.showInputDialog(this, "Nombre: ", "Agregar Sub Cuenta", JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println("nombre: " + nombre);
+                    if (nombre != null) {
+                        if (c.agregarSubCta(tablaCta.getValueAt(fila, 0).toString(), nombre)) {
+                            JOptionPane.showOptionDialog(this, "subcuenta agregada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
                             m = new LibroMayor();
                             modelo = m.creaModeloCtas(m.obtenerCuentasYsub());
                             tablaCta.setModel(modelo);
                             personalizaTablaCts();
                             cmbTipo.setSelectedIndex(0);
-                          }else{
-                            JOptionPane.showOptionDialog(this, "Error al agregar subcuenta", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+                        } else {
+                            JOptionPane.showOptionDialog(this, "Error al agregar subcuenta", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
                         }
-                    }else{
+                    } else {
                         System.out.println("Operacion cancelada");
                     }
-                }else{
-                    try{
-                    if(tablaCta.getValueAt(fila+1, 0).toString().length() > 6){
-                         Cuenta c = new Cuenta();
-                        String nombre = JOptionPane.showInputDialog (this, "Nombre: ", "Agregar Sub Cuenta",JOptionPane.INFORMATION_MESSAGE);
-                        System.out.println("Nombre-: " + nombre);
-                        if(nombre != null){
-                        if(c.agregarSubCta(tablaCta.getValueAt(fila, 0).toString(), nombre)){
-                            JOptionPane.showOptionDialog(this, "subcuenta agregada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");                     
-                            m = new LibroMayor();
-                            modelo = m.creaModeloCtas(m.obtenerCuentasYsub());
-                            tablaCta.setModel(modelo);
-                            personalizaTablaCts();
-                            cmbTipo.setSelectedIndex(0);
-                        }else{
-                            JOptionPane.showOptionDialog(this, "Error al agregar subcuenta", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+                } else {
+                    try {
+                        if (tablaCta.getValueAt(fila + 1, 0).toString().length() > 6) {
+                            Cuenta c = new Cuenta();
+                            String nombre = JOptionPane.showInputDialog(this, "Nombre: ", "Agregar Sub Cuenta", JOptionPane.INFORMATION_MESSAGE);
+                            System.out.println("Nombre-: " + nombre);
+                            if (nombre != null) {
+                                if (c.agregarSubCta(tablaCta.getValueAt(fila, 0).toString(), nombre)) {
+                                    JOptionPane.showOptionDialog(this, "subcuenta agregada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
+                                    m = new LibroMayor();
+                                    modelo = m.creaModeloCtas(m.obtenerCuentasYsub());
+                                    tablaCta.setModel(modelo);
+                                    personalizaTablaCts();
+                                    cmbTipo.setSelectedIndex(0);
+                                } else {
+                                    JOptionPane.showOptionDialog(this, "Error al agregar subcuenta", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+                                }
+                            } else {
+                                System.out.println("Operación cancelada");
+                            }
+                        } else {
+                            JOptionPane.showOptionDialog(this, "La cuenta debe estar en ceros 1", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
                         }
-                        }else{
-                            System.out.println("Operación cancelada");
-                        }
-                    }else{
-                        JOptionPane.showOptionDialog(this, "La cuenta debe estar en ceros 1", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");                     
-                    }
-                    }catch(Exception c){
-                        JOptionPane.showOptionDialog(this, "La cuenta debe estar en ceros  2", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");                     
+                    } catch (Exception c) {
+                        JOptionPane.showOptionDialog(this, "La cuenta debe estar en ceros  2", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
                     }
                 }
-               
-            }else{
-                JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+
+            } else {
+                JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
-       }
-       else{
-           JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
-       }
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+        }
     }//GEN-LAST:event_btnAddSubCtaActionPerformed
 
     private void btnborraCtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnborraCtaActionPerformed
-        if(tablaCta.getSelectedRow() != -1){
+        if (tablaCta.getSelectedRow() != -1) {
             Integer fila = tablaCta.getSelectedRow();
             String idCta = "";
-            if(Double.parseDouble(tablaCta.getValueAt(fila, 3).toString()) == 0.0){
+            if (Double.parseDouble(tablaCta.getValueAt(fila, 3).toString()) == 0.0) {
                 m = new LibroMayor();
                 d = new LibroDiario();
                 int confirmado = JOptionPane.showConfirmDialog(
-                    this, 
-                    "¿Lo confirmas?");
-                if (JOptionPane.OK_OPTION == confirmado)
+                        this,
+                        "¿Lo confirmas?");
+                if (JOptionPane.OK_OPTION == confirmado) {
                     idCta = tablaCta.getValueAt(fila, 0).toString();
-                    if(m.borrarCta(idCta)){
-                        if (d.borrarOps(idCta)) //borra operaciones con esa cuenta eliminada
-                            System.out.println("Operaciones eliminadas");
-                        JOptionPane.showOptionDialog(this, "La cuenta se eliminó correctamente", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");                     
-                        m = new LibroMayor();
-                        modelo = m.creaModeloCtas(m.obtenerCuentasYsub());
-                        tablaCta.setModel(modelo);
-                        personalizaTablaCts();
-                        cmbTipo.setSelectedIndex(0);
-                    }else{
-                        JOptionPane.showOptionDialog(this, "Error al eliminar la cuenta", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+                }
+                if (m.borrarCta(idCta)) {
+                    if (d.borrarOps(idCta)) //borra operaciones con esa cuenta eliminada
+                    {
+                        System.out.println("Operaciones eliminadas");
                     }
-            }else{
-                JOptionPane.showOptionDialog(this, "La cuenta debe estar en ceros", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");                     
+                    JOptionPane.showOptionDialog(this, "La cuenta se eliminó correctamente", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
+                    m = new LibroMayor();
+                    modelo = m.creaModeloCtas(m.obtenerCuentasYsub());
+                    tablaCta.setModel(modelo);
+                    personalizaTablaCts();
+                    cmbTipo.setSelectedIndex(0);
+                } else {
+                    JOptionPane.showOptionDialog(this, "Error al eliminar la cuenta", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+                }
+            } else {
+                JOptionPane.showOptionDialog(this, "La cuenta debe estar en ceros", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
-        }else{
-            JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
-             
+
     }//GEN-LAST:event_btnborraCtaActionPerformed
 
     private void btnOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpActionPerformed
-        if(tablaCta.getSelectedRow() != -1){
-            if(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString().length() < 6){ //es cuenta principal
-                try{
-                    if(tablaCta.getValueAt(tablaCta.getSelectedRow()+1, 0).toString().length() < 6){ 
+        if (tablaCta.getSelectedRow() != -1) {
+            if (tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString().length() < 6) { //es cuenta principal
+                try {
+                    if (tablaCta.getValueAt(tablaCta.getSelectedRow() + 1, 0).toString().length() < 6) {
                         IntOperacion o = new IntOperacion(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "c");
                         o.setVisible(true);
-                        dispose();         
+                        dispose();
+                    } else {
+                        String nombre = tablaCta.getValueAt(tablaCta.getSelectedRow(), 1).toString();
+                        JOptionPane.showOptionDialog(this, "Seleccione una subcuenta de: " + nombre, "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
                     }
-                    else{
-                    String nombre = tablaCta.getValueAt(tablaCta.getSelectedRow(), 1).toString();
-                    JOptionPane.showOptionDialog(this, "Seleccione una subcuenta de: " + nombre, "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");                     
-                }
-                }catch(Exception c){
+                } catch (Exception c) {
                     System.out.println("ultima cuenta");
                     IntOperacion o = new IntOperacion(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "c");
                     o.setVisible(true);
-                    dispose(); 
+                    dispose();
                 }
-                
-            }else{ // es sub cuenta
+
+            } else { // es sub cuenta
                 IntOperacion o = new IntOperacion(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "s");
                 o.setVisible(true);
-                dispose();  
+                dispose();
             }
-        }else{
-            JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnOpActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
-         if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,30})([ ]{0,1})*){1,6}$",txtBuscar1.getText())){
+        if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,30})([ ]{0,1})*){1,6}$", txtBuscar1.getText())) {
             m = new LibroMayor();
             modelo = m.creaModeloCtas(m.buscarCuentasYsub(txtBuscar1.getText()));
             tablaCta.setModel(modelo);
             personalizaTablaCts();
-        }else{
-            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
-       }
+        } else {
+            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+        }
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
     private void btnMostrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodoActionPerformed
@@ -1038,26 +1202,26 @@ public class IntCuentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMostrarTodoActionPerformed
 
     private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
-         m = new LibroMayor();
-        switch(cmbTipo.getSelectedItem().toString()){
-            case "Todas": 
+        m = new LibroMayor();
+        switch (cmbTipo.getSelectedItem().toString()) {
+            case "Todas":
                 modelo = m.creaModeloCtas(m.obtenerCuentasYsub());
-            break;
+                break;
             case "Activo":
                 modelo = m.creaModeloCtas(m.PorTipoCtsYsub("Activo"));
-            break;
+                break;
             case "Pasivo":
                 modelo = m.creaModeloCtas(m.PorTipoCtsYsub("Pasivo"));
-            break;
+                break;
             case "Capital":
                 modelo = m.creaModeloCtas(m.PorTipoCtsYsub("Capital"));
-            break;
+                break;
             case "Egreso":
                 modelo = m.creaModeloCtas(m.PorTipoCtsYsub("Egreso"));
-            break;
+                break;
             case "Ingreso":
                 modelo = m.creaModeloCtas(m.PorTipoCtsYsub("Ingreso"));
-            break;
+                break;
         }
         tablaCta.setModel(modelo);
         personalizaTablaCts();
@@ -1070,80 +1234,79 @@ public class IntCuentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddCtaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
+        if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,30})([ ]{0,1})*){1,6}$", txtBuscar.getText())) {
             modOp = creaModeloOp(buscarOperacion(txtBuscar.getText()));
             tablaOp.setModel(modOp);
             personalizaTablaOp();
             this.txtBuscar.setText("");
-        }else{
-            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
-       }
+        } else {
+            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    public TableModel creaModeloOp(List <Operacion> ops){
-            TablaOp modelo1 = new TablaOp(ops.size(),6);  //numero de filas del ResultSet como parametro del constructor
-            int i=0;
-            for (Operacion o : ops) {
-                  modelo1.setValueAt(o.getId(), i, 0);
-                  modelo1.setValueAt(o.getFecha(), i, 1);
-                  modelo1.setValueAt(o.getDesc(),i,2);
-                  modelo1.setValueAt(o.getCtaCargo(),i,3);
-                  modelo1.setValueAt(o.getCtaAbono(),i,4);
-                  modelo1.setValueAt(o.getMontoS(),i,5); 
-                  i++;
-            }
-            return modelo1;
+    public TableModel creaModeloOp(List<Operacion> ops) {
+        TablaOp modelo1 = new TablaOp(ops.size(), 6);  //numero de filas del ResultSet como parametro del constructor
+        int i = 0;
+        for (Operacion o : ops) {
+            modelo1.setValueAt(o.getId(), i, 0);
+            modelo1.setValueAt(o.getFecha(), i, 1);
+            modelo1.setValueAt(o.getDesc(), i, 2);
+            modelo1.setValueAt(o.getCtaCargo(), i, 3);
+            modelo1.setValueAt(o.getCtaAbono(), i, 4);
+            modelo1.setValueAt(o.getMontoS(), i, 5);
+            i++;
+        }
+        return modelo1;
     }
 
-    
-    private List <Operacion> buscarOperacion(String texto){
-          
-          Utilidades uts = new Utilidades();
-          List <Operacion> ops = new ArrayList();
-          TableModel modelo =tablaOp.getModel();
-          for(int i=0; i<modelo.getRowCount(); i++){
-              String id="";
-              String fecha="";
-              String desc="";
-              String ctaC="";
-              String ctaA="";
-              String monto="";
-              for(int j=0; j<modelo.getColumnCount(); j++){
-                  switch(j){
-                      case 0:
-                          id =  modelo.getValueAt(i,j).toString();
-                      break;
-                      case 1:
-                          fecha =  modelo.getValueAt(i,j).toString();
-                      break;
-                      case 2:
-                          desc =  modelo.getValueAt(i,j).toString();
-                      break;
-                      case 3:
-                          ctaC =  modelo.getValueAt(i,j).toString();
-                      break;
-                      case 4:
-                          ctaA =  modelo.getValueAt(i,j).toString();
-                      break;
-                      case 5:
-                          monto =  modelo.getValueAt(i,j).toString();
-                      break; 
-                  }
-              }
-              if(uts.CompararStrings(texto,fecha) || uts.CompararStrings(texto,desc) || uts.CompararStrings(texto,ctaC) || uts.CompararStrings(texto,ctaA) || uts.CompararStrings(texto,monto)){
-                      Operacion o = new Operacion();
-                      o.setId(id);
-                      o.setFecha(fecha);
-                      o.setDesc(desc);
-                      o.setCtaCargo(ctaC);
-                      o.setCtaAbono(ctaA);
-                      o.setMontoS(monto);
-                      ops.add(o);
-              }
-          }
-          return ops;
+    private List<Operacion> buscarOperacion(String texto) {
+
+        Utilidades uts = new Utilidades();
+        List<Operacion> ops = new ArrayList();
+        TableModel modelo = tablaOp.getModel();
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            String id = "";
+            String fecha = "";
+            String desc = "";
+            String ctaC = "";
+            String ctaA = "";
+            String monto = "";
+            for (int j = 0; j < modelo.getColumnCount(); j++) {
+                switch (j) {
+                    case 0:
+                        id = modelo.getValueAt(i, j).toString();
+                        break;
+                    case 1:
+                        fecha = modelo.getValueAt(i, j).toString();
+                        break;
+                    case 2:
+                        desc = modelo.getValueAt(i, j).toString();
+                        break;
+                    case 3:
+                        ctaC = modelo.getValueAt(i, j).toString();
+                        break;
+                    case 4:
+                        ctaA = modelo.getValueAt(i, j).toString();
+                        break;
+                    case 5:
+                        monto = modelo.getValueAt(i, j).toString();
+                        break;
+                }
+            }
+            if (uts.CompararStrings(texto, fecha) || uts.CompararStrings(texto, desc) || uts.CompararStrings(texto, ctaC) || uts.CompararStrings(texto, ctaA) || uts.CompararStrings(texto, monto)) {
+                Operacion o = new Operacion();
+                o.setId(id);
+                o.setFecha(fecha);
+                o.setDesc(desc);
+                o.setCtaCargo(ctaC);
+                o.setCtaAbono(ctaA);
+                o.setMontoS(monto);
+                ops.add(o);
+            }
+        }
+        return ops;
     }
-    
+
     private void mostrartodoOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrartodoOpActionPerformed
         LibroDiario d1 = new LibroDiario();
         modOp = d1.creaModeloOp();
@@ -1162,29 +1325,29 @@ public class IntCuentas extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbMesActionPerformed
 
     private void txtBuscar1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscar1KeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) { 
-            if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,30})([ ]{0,1})*){1,6}$",txtBuscar1.getText())){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,30})([ ]{0,1})*){1,6}$", txtBuscar1.getText())) {
                 m = new LibroMayor();
                 modelo = m.creaModeloCtas(m.buscarCuentasYsub(txtBuscar1.getText()));
                 tablaCta.setModel(modelo);
                 personalizaTablaCts();
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+            } else {
+                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
         }
     }//GEN-LAST:event_txtBuscar1KeyReleased
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) { 
-            if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,30})([ ]{0,1})*){1,6}$", txtBuscar.getText())) {
                 modOp = creaModeloOp(buscarOperacion(txtBuscar.getText()));
                 tablaOp.setModel(modOp);
                 personalizaTablaOp();
                 this.txtBuscar.setText("");
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+            } else {
+                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
-            
+
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
@@ -1194,19 +1357,19 @@ public class IntCuentas extends javax.swing.JFrame {
 
     private void sMnuCerrPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuCerrPeriodoActionPerformed
         int confirmado = JOptionPane.showConfirmDialog(
-            this, "¿Lo confirmas?");
-        if (JOptionPane.OK_OPTION == confirmado){
+                this, "¿Lo confirmas?");
+        if (JOptionPane.OK_OPTION == confirmado) {
             Utilidades uts = new Utilidades();
             String fecha = uts.obtFechaStringDMA();
             Secretaria mary = new Secretaria();
 
-            if(mary.cierraPeriodo(fecha)){
-                JOptionPane.showOptionDialog(this, "Periodo cerrado exitosamente", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");
+            if (mary.cierraPeriodo(fecha)) {
+                JOptionPane.showOptionDialog(this, "Periodo cerrado exitosamente", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
                 IntCuentas c = new IntCuentas();
                 c.setVisible(true);
                 dispose();
-            }else{
-                JOptionPane.showOptionDialog(this, "Error al cerrar periodo", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            } else {
+                JOptionPane.showOptionDialog(this, "Error al cerrar periodo", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
         }
     }//GEN-LAST:event_sMnuCerrPeriodoActionPerformed
@@ -1265,39 +1428,38 @@ public class IntCuentas extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_sMnuRegPedActionPerformed
 
-    private void sMnuGestProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuGestProdActionPerformed
+    private void sMnuInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuInventarioActionPerformed
         IntAlmacen v = new IntAlmacen();
         v.setVisible(true);
         dispose();
-    }//GEN-LAST:event_sMnuGestProdActionPerformed
+    }//GEN-LAST:event_sMnuInventarioActionPerformed
 
     private void btnOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOperacionActionPerformed
-        if(tablaCta.getSelectedRow() != -1){
-            if(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString().length() < 6){ //es cuenta principal
-                try{
-                    if(tablaCta.getValueAt(tablaCta.getSelectedRow()+1, 0).toString().length() < 6){ 
+        if (tablaCta.getSelectedRow() != -1) {
+            if (tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString().length() < 6) { //es cuenta principal
+                try {
+                    if (tablaCta.getValueAt(tablaCta.getSelectedRow() + 1, 0).toString().length() < 6) {
                         IntOperacionSimple o = new IntOperacionSimple(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
                         o.setVisible(true);
                         dispose();
+                    } else {
+                        String nombre = tablaCta.getValueAt(tablaCta.getSelectedRow(), 1).toString();
+                        JOptionPane.showOptionDialog(this, "Seleccione una subcuenta de: " + nombre, "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
                     }
-                    else{
-                    String nombre = tablaCta.getValueAt(tablaCta.getSelectedRow(), 1).toString();
-                    JOptionPane.showOptionDialog(this, "Seleccione una subcuenta de: " + nombre, "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");                     
-                }
-                }catch(Exception c){
+                } catch (Exception c) {
                     System.out.println("ultima cuenta");
                     IntOperacionSimple o = new IntOperacionSimple(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
                     o.setVisible(true);
                     dispose();
                 }
-                
-            }else{ // es sub cuenta
+
+            } else { // es sub cuenta
                 IntOperacionSimple o = new IntOperacionSimple(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
                 o.setVisible(true);
                 dispose();
             }
-        }else{
-            JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnOperacionActionPerformed
 
@@ -1307,11 +1469,11 @@ public class IntCuentas extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_sMnuEdoResActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void smnuAdminPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuAdminPActionPerformed
         IntProductos v = new IntProductos();
         v.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_smnuAdminPActionPerformed
 
     private void smnuBalGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuBalGenActionPerformed
         IntBalanceGral bg = new IntBalanceGral();
@@ -1329,10 +1491,13 @@ public class IntCuentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_smnuBalGen1ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void smnuEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuEstadisticasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_smnuEstadisticasActionPerformed
 
+    private void mnuOpcionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuOpcionesMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_mnuOpcionesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1356,8 +1521,6 @@ public class IntCuentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1378,14 +1541,16 @@ public class IntCuentas extends javax.swing.JFrame {
     private javax.swing.JMenuItem sMnuCerrPeriodo;
     private javax.swing.JMenuItem sMnuEdoRes;
     private javax.swing.JMenuItem sMnuFinanzas;
-    private javax.swing.JMenuItem sMnuGestProd;
     private javax.swing.JMenuItem sMnuGestVend;
     private javax.swing.JMenuItem sMnuGestionarCl;
     private javax.swing.JMenuItem sMnuGestionarProv;
+    private javax.swing.JMenuItem sMnuInventario;
     private javax.swing.JMenuItem sMnuRegPed;
     private javax.swing.JMenuItem sMnuRegVen;
+    private javax.swing.JMenuItem smnuAdminP;
     private javax.swing.JMenuItem smnuBalGen;
     private javax.swing.JMenuItem smnuBalGen1;
+    private javax.swing.JMenuItem smnuEstadisticas;
     private javax.swing.JTable tablaBG;
     private javax.swing.JTable tablaCta;
     private javax.swing.JTable tablaOp;
@@ -1397,5 +1562,5 @@ public class IntCuentas extends javax.swing.JFrame {
     public Boolean getDone() {
         return done;
     }
-    
+
 }

@@ -108,13 +108,14 @@ public class IntAlmacen extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuAlmacen = new javax.swing.JMenu();
         sMnuGestProd = new javax.swing.JMenuItem();
-        sMnuRegPed = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         mnuClientes = new javax.swing.JMenu();
         sMnuAgregarCl = new javax.swing.JMenuItem();
         sMnuRegVen = new javax.swing.JMenuItem();
         sMnuGestionarCl = new javax.swing.JMenuItem();
         mnuProveedores = new javax.swing.JMenu();
+        sMnuRegPed = new javax.swing.JMenuItem();
         sMnuAgregarProv = new javax.swing.JMenuItem();
         sMnuGestionarProv = new javax.swing.JMenuItem();
         mnuVendedores = new javax.swing.JMenu();
@@ -122,13 +123,14 @@ public class IntAlmacen extends javax.swing.JFrame {
         sMnuGestVend = new javax.swing.JMenuItem();
         mnuContabilidad = new javax.swing.JMenu();
         sMnuAgregarCta = new javax.swing.JMenuItem();
-        smnuBalGen = new javax.swing.JMenuItem();
         sMnuEdoRes = new javax.swing.JMenuItem();
         sMnuFinanzas = new javax.swing.JMenuItem();
         mnuPeriodo = new javax.swing.JMenu();
+        smnuBalGen1 = new javax.swing.JMenuItem();
+        smnuBalGen = new javax.swing.JMenuItem();
         sMnuCerrPeriodo = new javax.swing.JMenuItem();
+        mnuOpciones1 = new javax.swing.JMenu();
         mnuOpciones = new javax.swing.JMenu();
-        sMnuSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Almacén");
@@ -212,16 +214,18 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         jLabel1.setText("Proveedor:");
 
+        jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jMenuBar1.setMargin(new java.awt.Insets(5, 0, 5, 20));
 
+        mnuAlmacen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/almacen1.png"))); // NOI18N
         mnuAlmacen.setText("Almacen");
-        mnuAlmacen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuAlmacen.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuAlmacen.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
         sMnuGestProd.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         sMnuGestProd.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuGestProd.setText("Existencias");
+        sMnuGestProd.setText("Inventario");
         sMnuGestProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sMnuGestProdActionPerformed(evt);
@@ -229,18 +233,17 @@ public class IntAlmacen extends javax.swing.JFrame {
         });
         mnuAlmacen.add(sMnuGestProd);
 
-        sMnuRegPed.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        sMnuRegPed.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuRegPed.setText("Registrar Pedido");
-        sMnuRegPed.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jMenuItem2.setText("Estadísticas");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sMnuRegPedActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        mnuAlmacen.add(sMnuRegPed);
+        mnuAlmacen.add(jMenuItem2);
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jMenuItem1.setText("Gestionar productos");
+        jMenuItem1.setText("Administrar productos");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -250,8 +253,9 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuAlmacen);
 
+        mnuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clientes.png"))); // NOI18N
         mnuClientes.setText("Clientes");
-        mnuClientes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuClientes.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
         sMnuAgregarCl.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -286,9 +290,20 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuClientes);
 
+        mnuProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/proveedores.png"))); // NOI18N
         mnuProveedores.setText("Proveedores");
-        mnuProveedores.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuProveedores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuProveedores.setMargin(new java.awt.Insets(0, 0, 0, 10));
+
+        sMnuRegPed.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        sMnuRegPed.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        sMnuRegPed.setText("Registrar Pedido");
+        sMnuRegPed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sMnuRegPedActionPerformed(evt);
+            }
+        });
+        mnuProveedores.add(sMnuRegPed);
 
         sMnuAgregarProv.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         sMnuAgregarProv.setText("Agregar Proveedor");
@@ -301,7 +316,7 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         sMnuGestionarProv.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
         sMnuGestionarProv.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuGestionarProv.setText("Gestionar Proveedores");
+        sMnuGestionarProv.setText("Administrar Proveedores");
         sMnuGestionarProv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sMnuGestionarProvActionPerformed(evt);
@@ -311,8 +326,9 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuProveedores);
 
-        mnuVendedores.setText("Vendedores");
-        mnuVendedores.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuVendedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/vendedores.png"))); // NOI18N
+        mnuVendedores.setText("Empleados");
+        mnuVendedores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuVendedores.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
         sMnuAgVend.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -326,7 +342,7 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         sMnuGestVend.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
         sMnuGestVend.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuGestVend.setText("Gestionar vendedores");
+        sMnuGestVend.setText("Administrar vendedores");
         sMnuGestVend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sMnuGestVendActionPerformed(evt);
@@ -336,8 +352,9 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuVendedores);
 
+        mnuContabilidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/contabilidad.png"))); // NOI18N
         mnuContabilidad.setText("Contabilidad");
-        mnuContabilidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuContabilidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuContabilidad.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
         sMnuAgregarCta.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -348,16 +365,6 @@ public class IntAlmacen extends javax.swing.JFrame {
             }
         });
         mnuContabilidad.add(sMnuAgregarCta);
-
-        smnuBalGen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        smnuBalGen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        smnuBalGen.setText("Balance General");
-        smnuBalGen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                smnuBalGenActionPerformed(evt);
-            }
-        });
-        mnuContabilidad.add(smnuBalGen);
 
         sMnuEdoRes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         sMnuEdoRes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -381,9 +388,29 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuContabilidad);
 
+        mnuPeriodo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/estadisticas.png"))); // NOI18N
         mnuPeriodo.setText("Periodos");
-        mnuPeriodo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        mnuPeriodo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mnuPeriodo.setMargin(new java.awt.Insets(0, 0, 0, 10));
+
+        smnuBalGen1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        smnuBalGen1.setText("Estadísticas");
+        smnuBalGen1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smnuBalGen1ActionPerformed(evt);
+            }
+        });
+        mnuPeriodo.add(smnuBalGen1);
+
+        smnuBalGen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        smnuBalGen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        smnuBalGen.setText("Histórico");
+        smnuBalGen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smnuBalGenActionPerformed(evt);
+            }
+        });
+        mnuPeriodo.add(smnuBalGen);
 
         sMnuCerrPeriodo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         sMnuCerrPeriodo.setText("Cerrar periodo");
@@ -396,20 +423,21 @@ public class IntAlmacen extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuPeriodo);
 
-        mnuOpciones.setText("Opciones");
-        mnuOpciones.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        mnuOpciones.setMargin(new java.awt.Insets(0, 0, 0, 10));
+        mnuOpciones1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ajustes.png"))); // NOI18N
+        mnuOpciones1.setText("Opciones");
+        mnuOpciones1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuOpciones1.setMargin(new java.awt.Insets(0, 0, 0, 10));
+        jMenuBar1.add(mnuOpciones1);
 
-        sMnuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        sMnuSalir.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        sMnuSalir.setText("Salir");
-        sMnuSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sMnuSalirActionPerformed(evt);
+        mnuOpciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/encender-esquema-semicirculo_318-34691.png"))); // NOI18N
+        mnuOpciones.setText("Salir");
+        mnuOpciones.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuOpciones.setMargin(new java.awt.Insets(0, 0, 0, 10));
+        mnuOpciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuOpcionesMouseClicked(evt);
             }
         });
-        mnuOpciones.add(sMnuSalir);
-
         jMenuBar1.add(mnuOpciones);
 
         setJMenuBar(jMenuBar1);
@@ -463,7 +491,7 @@ public class IntAlmacen extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMostrarTodo)
@@ -584,11 +612,9 @@ public class IntAlmacen extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_sMnuGestProdActionPerformed
 
-    private void sMnuRegPedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuRegPedActionPerformed
-        IntSelectProv v = new IntSelectProv();
-        v.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_sMnuRegPedActionPerformed
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         IntProductos v = new IntProductos();
@@ -613,6 +639,12 @@ public class IntAlmacen extends javax.swing.JFrame {
         v.setVisible(true);
         dispose();
     }//GEN-LAST:event_sMnuGestionarClActionPerformed
+
+    private void sMnuRegPedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuRegPedActionPerformed
+        IntSelectProv v = new IntSelectProv();
+        v.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_sMnuRegPedActionPerformed
 
     private void sMnuAgregarProvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuAgregarProvActionPerformed
         IntAgregarProv v = new IntAgregarProv();
@@ -644,12 +676,6 @@ public class IntAlmacen extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_sMnuAgregarCtaActionPerformed
 
-    private void smnuBalGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuBalGenActionPerformed
-        IntBalanceGral bg = new IntBalanceGral();
-        bg.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_smnuBalGenActionPerformed
-
     private void sMnuEdoResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuEdoResActionPerformed
         IntEdoRes edo = new IntEdoRes();
         edo.setVisible(true);
@@ -661,6 +687,16 @@ public class IntAlmacen extends javax.swing.JFrame {
         c.setVisible(true);
         dispose();
     }//GEN-LAST:event_sMnuFinanzasActionPerformed
+
+    private void smnuBalGen1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuBalGen1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_smnuBalGen1ActionPerformed
+
+    private void smnuBalGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuBalGenActionPerformed
+        IntBalanceGral bg = new IntBalanceGral();
+        bg.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_smnuBalGenActionPerformed
 
     private void sMnuCerrPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuCerrPeriodoActionPerformed
         int confirmado = JOptionPane.showConfirmDialog(
@@ -681,9 +717,9 @@ public class IntAlmacen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_sMnuCerrPeriodoActionPerformed
 
-    private void sMnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuSalirActionPerformed
-        System.exit(1);
-    }//GEN-LAST:event_sMnuSalirActionPerformed
+    private void mnuOpcionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuOpcionesMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_mnuOpcionesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -697,11 +733,13 @@ public class IntAlmacen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu mnuAlmacen;
     private javax.swing.JMenu mnuClientes;
     private javax.swing.JMenu mnuContabilidad;
     private javax.swing.JMenu mnuOpciones;
+    private javax.swing.JMenu mnuOpciones1;
     private javax.swing.JMenu mnuPeriodo;
     private javax.swing.JMenu mnuProveedores;
     private javax.swing.JMenu mnuVendedores;
@@ -718,8 +756,8 @@ public class IntAlmacen extends javax.swing.JFrame {
     private javax.swing.JMenuItem sMnuGestionarProv;
     private javax.swing.JMenuItem sMnuRegPed;
     private javax.swing.JMenuItem sMnuRegVen;
-    private javax.swing.JMenuItem sMnuSalir;
     private javax.swing.JMenuItem smnuBalGen;
+    private javax.swing.JMenuItem smnuBalGen1;
     private javax.swing.JTable tablaProd;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables

@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.Almacen;
 import Controller.Producto;
 import java.awt.Color;
 import java.util.regex.Pattern;
@@ -17,31 +18,49 @@ import javax.swing.JPanel;
  * @author lenovo
  */
 public class IntAgregarProd extends javax.swing.JFrame {
+
     private IntRegistrarPed vReg;
     private Producto prod;
     private String codigoB;
+
     /**
-     * Creates new form IntAgregarProd
+     * Constructor para agregar un producto desde la interfaz de registrar pedido
+     * 
      * @param vReg
      * @param cod
      */
     public IntAgregarProd(IntRegistrarPed vReg, String cod) {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/img/29.png")).getImage());
-        ((JPanel)getContentPane()).setOpaque(fal­se); 
+        ((JPanel) getContentPane()).setOpaque(fal­se);
         this.vReg = vReg;
         this.codigoB = cod;
-        if(vReg.getProv().getRazonSocial().equals("Mary Kay")){
-             this.txtMarca.setText("Mary Kay");
-             this.txtPrecioV.setText("00");
-             this.cmbTipo.setSelectedIndex(3);
+        if (vReg.getProv().getRazonSocial().equals("Mary Kay")) {
+            this.txtMarca.setText("Mary Kay");
+            this.txtPrecioV.setText("00");
+            this.cmbTipo.setSelectedIndex(3);
         }
-               
+
         datosValidos = false;
+        radStock_no.setSelected(true);
+        radStock_si.setSelected(false);
+        stockMin.setEnabled(false);
+        txtCodigo.setText(cod);
+        txtCodigo.setEnabled(false);
     }
+
     
-    
-    
+    //constructor para agregar un producto desde la interfaz de administracion
+    public IntAgregarProd() {
+        initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/img/29.png")).getImage());
+        ((JPanel) getContentPane()).setOpaque(fal­se);
+        this.vReg = null;
+        datosValidos = false;
+        radStock_no.setSelected(true);
+        radStock_si.setSelected(false);
+        stockMin.setEnabled(false);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,6 +85,12 @@ public class IntAgregarProd extends javax.swing.JFrame {
         txtMarca = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         cmbTipo = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        radStock_si = new javax.swing.JRadioButton();
+        radStock_no = new javax.swing.JRadioButton();
+        stockMin = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Agregar Producto");
@@ -133,6 +158,30 @@ public class IntAgregarProd extends javax.swing.JFrame {
 
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "perfume", "bolsa", "cartera", "cosmetico", "reloj", "joyeria" }));
 
+        jLabel7.setText("Stock mínimo:");
+
+        radStock_si.setText("Si");
+        radStock_si.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radStock_siActionPerformed(evt);
+            }
+        });
+
+        radStock_no.setText("No");
+        radStock_no.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radStock_noActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Código:");
+
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,37 +211,65 @@ public class IntAgregarProd extends javax.swing.JFrame {
                                 .addComponent(txtNombre)
                                 .addComponent(txtMarca))
                             .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(69, Short.MAX_VALUE))))
+                        .addContainerGap(69, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(124, 124, 124)
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(82, 82, 82)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(radStock_si)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(radStock_no))
+                                    .addComponent(stockMin))))
+                        .addGap(69, 69, 69))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
                             .addComponent(txtPrecioC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtPrecioV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel5))
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                        .addGap(39, 39, 39))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(radStock_si)
+                    .addComponent(radStock_no))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stockMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -204,41 +281,55 @@ public class IntAgregarProd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if(datosValidos){
-            if(txtNombre.getText().length()!=0 && txtMarca.getText().length()!=0 && txtPrecioC.getText().length()!=0 && txtPrecioV.getText().length()!=0){
-              this.prod = new Producto(this.codigoB,txtNombre.getText(),txtMarca.getText(),cmbTipo.getSelectedItem().toString(), Double.parseDouble(txtPrecioC.getText()),Double.parseDouble(txtPrecioV.getText()));
-              this.prod.setCantidad(Integer.parseInt(txtCantidad.getText()));
-              this.prod.setIdPedido(vReg.getPedido().getId());
-              vReg.addProducto(this.prod);
-              vReg.actualizarTabla();
-              dispose();
-              vReg.setTxtCodigoB("");
-              vReg.setVisible(true);
-            }else{
-                JOptionPane.showOptionDialog(this, "Datos no válidos", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+        if (datosValidos) {
+            if (txtNombre.getText().length() != 0 && txtMarca.getText().length() != 0 && txtPrecioC.getText().length() != 0 && txtPrecioV.getText().length() != 0) {
+
+                this.prod = new Producto(this.codigoB, txtNombre.getText(), txtMarca.getText(), cmbTipo.getSelectedItem().toString(), Double.parseDouble(txtPrecioC.getText()), Double.parseDouble(txtPrecioV.getText()));
+                this.prod.setCantidad(Integer.parseInt(txtCantidad.getText()));
+                if (radStock_si.isEnabled()) {
+                    this.prod.setStockMin(Integer.parseInt(stockMin.getText()));
+                }
+                if (vReg != null) {
+                    this.prod.setIdPedido(vReg.getPedido().getId());
+                    vReg.addProducto(this.prod);
+                    vReg.actualizarTabla();
+                    dispose();
+                    vReg.setTxtCodigoB("");
+                    vReg.setVisible(true);
+                } else {
+                    this.prod.setCodigoBarras(txtCodigo.getText());
+                    Almacen a = new Almacen();
+                    if(a.agregarProd(this.prod)){
+                        JOptionPane.showOptionDialog(this, "Producto agregado", "Aviso", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
+                    }else{
+                        JOptionPane.showOptionDialog(this, "Producto no agregado", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+                    }
+                    dispose();
+                }
+            } else {
+                JOptionPane.showOptionDialog(this, "Datos no válidos", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
-        }else{
-            JOptionPane.showOptionDialog(this, "Campos vacíos", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK"); 
+        } else {
+            JOptionPane.showOptionDialog(this, "Campos vacíos", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-      dispose();
-      vReg.setTxtCodigoB("");
-      vReg.setVisible(true);
+        dispose();
+        vReg.setTxtCodigoB("");
+        vReg.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyReleased
-        if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,0-9]{2,30})+([ ]{0,1})){1,10}$",txtNombre.getText())){
+        if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z,0-9]{2,30})+([ ]{0,1})){1,10}$", txtNombre.getText())) {
             txtNombre.setBackground(Color.GREEN);
             txtNombre.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtNombre.setForeground(Color.WHITE);
             txtNombre.setBackground(Color.RED);
             this.datosValidos = false;
-        } 
+        }
     }//GEN-LAST:event_txtNombreKeyReleased
 
     private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
@@ -246,12 +337,11 @@ public class IntAgregarProd extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMarcaActionPerformed
 
     private void txtMarcaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyReleased
-        if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,0-9]{2,30})+([ ]{0,1})){1,5}$",txtMarca.getText())){
+        if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z,0-9]{2,30})+([ ]{0,1})){1,5}$", txtMarca.getText())) {
             txtMarca.setBackground(Color.GREEN);
             txtMarca.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtMarca.setForeground(Color.WHITE);
             txtMarca.setBackground(Color.RED);
             this.datosValidos = false;
@@ -259,12 +349,11 @@ public class IntAgregarProd extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMarcaKeyReleased
 
     private void txtPrecioCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioCKeyReleased
-        if(Pattern.matches("^([0-9]{2,4})(([.])([0-9]{2}))*$",txtPrecioC.getText())){
+        if (Pattern.matches("^([0-9]{2,4})(([.])([0-9]{2}))*$", txtPrecioC.getText())) {
             txtPrecioC.setBackground(Color.GREEN);
             txtPrecioC.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtPrecioC.setForeground(Color.WHITE);
             txtPrecioC.setBackground(Color.RED);
             this.datosValidos = false;
@@ -272,12 +361,11 @@ public class IntAgregarProd extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecioCKeyReleased
 
     private void txtPrecioVKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioVKeyReleased
-        if(Pattern.matches("^([0-9]{2,4})(([.])([0-9]{2}))*$",txtPrecioV.getText())){
+        if (Pattern.matches("^([0-9]{2,4})(([.])([0-9]{2}))*$", txtPrecioV.getText())) {
             txtPrecioV.setBackground(Color.GREEN);
             txtPrecioV.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtPrecioV.setForeground(Color.WHITE);
             txtPrecioV.setBackground(Color.RED);
             this.datosValidos = false;
@@ -285,22 +373,35 @@ public class IntAgregarProd extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecioVKeyReleased
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
-        if(Pattern.matches("^([0-9]{1,3})$",txtCantidad.getText())){
+        if (Pattern.matches("^([0-9]{1,3})$", txtCantidad.getText())) {
             txtCantidad.setBackground(Color.GREEN);
             txtCantidad.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtCantidad.setForeground(Color.WHITE);
             txtCantidad.setBackground(Color.RED);
             this.datosValidos = false;
         }
     }//GEN-LAST:event_txtCantidadKeyReleased
 
+    private void radStock_noActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radStock_noActionPerformed
+        stockMin.setEnabled(false);
+        radStock_si.setSelected(false);
+    }//GEN-LAST:event_radStock_noActionPerformed
+
+    private void radStock_siActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radStock_siActionPerformed
+        stockMin.setEnabled(true);
+        radStock_no.setSelected(false);
+    }//GEN-LAST:event_radStock_siActionPerformed
+
+    private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoKeyReleased
+
     /**
      * @param args the command line arguments
      */
-  
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
@@ -311,7 +412,13 @@ public class IntAgregarProd extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JRadioButton radStock_no;
+    private javax.swing.JRadioButton radStock_si;
+    private javax.swing.JTextField stockMin;
     private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecioC;

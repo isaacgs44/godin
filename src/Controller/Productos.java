@@ -34,7 +34,7 @@ public class Productos {
        this.query = new Query();
        this.productos.clear();
        ResultSet res; 
-       if(!query.seleccion("*", "producto")){
+       if(!query.seleccion("*", "producto","ORDER BY ventas_prod DESC")){
            System.out.println("no hay producto");
        }else{
             try {
