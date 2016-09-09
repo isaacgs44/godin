@@ -34,6 +34,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -73,6 +75,14 @@ public class IntCuentas extends javax.swing.JFrame {
         done = false;
 
         initComponents();
+        
+             ((JPanel)getContentPane()).setOpaque(false);//empieza codigo fondo 
+        ImageIcon uno=new ImageIcon(this.getClass().getResource("/img/fondo.jpg"));
+        JLabel fondo= new JLabel();
+        fondo.setIcon(uno);
+        getLayeredPane().add(fondo,JLayeredPane.FRAME_CONTENT_LAYER);
+        fondo.setBounds(0,0,uno.getIconWidth(),uno.getIconHeight());//termina codigo de fondo 
+        
         setIconImage(new ImageIcon(getClass().getResource("/img/29.png")).getImage());
         ((JPanel) getContentPane()).setOpaque(fal­se);
         d = new LibroDiario();
@@ -166,23 +176,7 @@ public class IntCuentas extends javax.swing.JFrame {
 
         //mnuAlmacen.setBackground(Color.white);
 
-        fondo = new JPanel() {
-            public void paint(Graphics g) {
-                Dimension tamanio = getSize();
-                ImageIcon imagenFondo = new ImageIcon(getClass().getResource("/img/29.png"));
-                g.drawImage(imagenFondo.getImage(), 0, 0, tamanio.width, tamanio.height, null);
-                setOpaque(false);
-                super.paintComponent(g);
-
-            }
-        };
-       fondo.add(getContentPane());
-        this.setContentPane(fondo);
-        getContentPane().revalidate();
-        getContentPane().repaint();
-        repaint();
-        revalidate();
-        
+             
     }
 
 
