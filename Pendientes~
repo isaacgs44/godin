@@ -9,16 +9,14 @@ Almacen
 		*ventas - tipo de producto
 		*margen ganancia - tipo de producto
    Administrar Productos
-	+Mostrar mas vendidos primero
-	+Agregar producto
-		+Seleccionar stock min -> opcion para no configurarlo
+	*Mostrar mas vendidos primero
+	*Agregar producto
+		*Seleccionar stock min -> opcion para no configurarlo
 	*Eliminar producto
 	*agregar criterios de búsqueda
-   	*boton Productos por agotarse
-		mostrar productos que tengan configurado el stock mínimo
-	 	marcar con: verde para los que estan bien
-		      	    rojo agotaos
-			    naranja por agotarse
+   *Productos por agotarse
+	*tabla con productos que tengan configurado el stock mínimo
+	 y esten por agotarse
 	
 Clientes
    Agregar cliente
