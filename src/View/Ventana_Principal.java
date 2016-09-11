@@ -7,13 +7,24 @@ package View;
 
 import Controller.Secretaria;
 import Controller.Utilidades;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.LayoutManager;
+import java.awt.Toolkit;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -21,25 +32,58 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicMenuBarUI;
 import javax.swing.plaf.basic.BasicMenuItemUI;
 import javax.swing.plaf.basic.BasicMenuUI;
 import javax.swing.plaf.basic.BasicPopupMenuUI;
+import javax.swing.plaf.metal.DefaultMetalTheme;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.synth.SynthLookAndFeel;
 
 /**
  *
  * @author lenovo
  */
 public class Ventana_Principal extends javax.swing.JFrame {
+
     JLabel fondo;
     ImageIcon imagen;
-
+    
+ 
     /**
      * Creates new form IntCuentas
      */
     public Ventana_Principal() {
         initComponents();
+        // cambiando el estilo de nimbus...
+        // colores: https://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/_nimbusDefaults.html#primary
+        try {
+            // estilo según el sistema operativo: UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            UIManager.put("nimbusBase", Color.gray); // scroll , marco ventana
+            UIManager.put("nimbusBlueGrey", Color.lightGray); // botones, cabezera tabla, fondo scrolls
+            UIManager.put("nimbusSelectionBackground", Color.darkGray); //seleccion en tablas o elementos de lista
+            UIManager.put("nimbusSelectedText", Color.white); // color del texto de elementos de seleccion en tablas o elementos de lista
+            UIManager.put("nimbusFocus", Color.gray); // color del texto de elementos de seleccion en tablas o elementos de lista
+            UIManager.put("nimbusOrange", Color.BLACK); // barra de carga
+            //UIManager.put("control", Color.darkGray); // fondo del panel
+
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Falló la carga del tema");
+            System.out.println(ex);
+        }
+        
         setIconImage(new ImageIcon(getClass().getResource("/img/29.png")).getImage());
 
         panelContenedor.setOpaque(false);//empieza codigo fondo 
@@ -51,10 +95,13 @@ public class Ventana_Principal extends javax.swing.JFrame {
         fondo.setVerticalAlignment(SwingConstants.CENTER);
         getContentPane().add(fondo, JLayeredPane.CENTER_ALIGNMENT);
         fondo.setSize(imagen.getIconWidth(), imagen.getIconHeight());//termina codigo de fondo 
-
+        
         personalizarMenu();
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
 
+  
+    
     private void personalizarMenu() {
         //cambiar de color al menu
         jMenuBar1.setUI(new BasicMenuBarUI() {
@@ -868,7 +915,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         mnuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clientes.png"))); // NOI18N
         mnuClientes.setText("Clientes");
-        mnuClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuClientes.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         mnuClientes.setMargin(new java.awt.Insets(0, 0, 0, 10));
         mnuClientes.setPreferredSize(new java.awt.Dimension(117, 40));
 
@@ -906,7 +953,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         mnuProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/proveedores.png"))); // NOI18N
         mnuProveedores.setText("Proveedores");
-        mnuProveedores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuProveedores.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         mnuProveedores.setMargin(new java.awt.Insets(0, 0, 0, 10));
         mnuProveedores.setPreferredSize(new java.awt.Dimension(155, 40));
 
@@ -943,7 +990,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         mnuEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/vendedores.png"))); // NOI18N
         mnuEmpleados.setText("Empleados");
-        mnuEmpleados.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuEmpleados.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         mnuEmpleados.setMargin(new java.awt.Insets(0, 0, 0, 10));
         mnuEmpleados.setPreferredSize(new java.awt.Dimension(137, 40));
 
@@ -970,7 +1017,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         mnuContabilidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/contabilidad.png"))); // NOI18N
         mnuContabilidad.setText("Contabilidad");
-        mnuContabilidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuContabilidad.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         mnuContabilidad.setMargin(new java.awt.Insets(0, 0, 0, 10));
         mnuContabilidad.setPreferredSize(new java.awt.Dimension(149, 40));
 
@@ -1007,7 +1054,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         mnuPeriodo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/estadisticas.png"))); // NOI18N
         mnuPeriodo.setText("Periodos");
-        mnuPeriodo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuPeriodo.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         mnuPeriodo.setMargin(new java.awt.Insets(0, 0, 0, 10));
         mnuPeriodo.setPreferredSize(new java.awt.Dimension(123, 40));
 
@@ -1042,15 +1089,15 @@ public class Ventana_Principal extends javax.swing.JFrame {
         jMenuBar1.add(mnuPeriodo);
 
         mnuOpciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ajustes.png"))); // NOI18N
-        mnuOpciones.setText("Opciones");
-        mnuOpciones.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuOpciones.setText("Ajustes");
+        mnuOpciones.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         mnuOpciones.setMargin(new java.awt.Insets(0, 0, 0, 10));
         mnuOpciones.setPreferredSize(new java.awt.Dimension(125, 40));
         jMenuBar1.add(mnuOpciones);
 
         mnuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/encender-esquema-semicirculo_318-34691.png"))); // NOI18N
         mnuSalir.setText("Salir");
-        mnuSalir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mnuSalir.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         mnuSalir.setMargin(new java.awt.Insets(0, 0, 0, 10));
         mnuSalir.setPreferredSize(new java.awt.Dimension(81, 40));
         mnuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1070,7 +1117,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
                 .addGap(550, 550, 550)
                 .addComponent(jLabel18)
                 .addGap(0, 450, Short.MAX_VALUE))
-            .addComponent(panelContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, 1031, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1159,8 +1206,21 @@ public class Ventana_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_sMnuRegPedActionPerformed
 
     private void sMnuInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuInventarioActionPerformed
-        // Se construye el JInternalFrame
+        DialogoPersonalizado dialogo = new DialogoPersonalizado("Inventario",false);
+        JPanel panelInventario = new IntInventario();
+       
+        dialogo.setjScrollPane1(panelInventario);
+        dialogo.setSize(800, 500);
+        dialogo.setVisible(true);
+        dialogo.setLocationRelativeTo(null);
+        dialogo.setResizable(true);
+        dialogo.setMinimumSize(new Dimension(250, 200)); 
+        dialogo.setAlwaysOnTop(true);
+        
+        /*
         JInternalFrame internal = new JInternalFrame("Inventario");
+
+        // Se construye el JInternalFrame
         //creo scrollPane con Panel adentro
         JScrollPane scrollPane = new JScrollPane(new IntInventario());
         internal.add(scrollPane); //añadimos panel a internalFrame
@@ -1170,7 +1230,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         internal.setVisible(true);
         internal.setResizable(true);
         internal.setClosable(true);
-        revalidate(); // actualizamos componentes
+        revalidate(); // actualizamos componentes*/
 
     }//GEN-LAST:event_sMnuInventarioActionPerformed
 
@@ -1181,9 +1241,17 @@ public class Ventana_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_sMnuEdoResActionPerformed
 
     private void smnuAdminPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuAdminPActionPerformed
-        IntProductos v = new IntProductos();
-        v.setVisible(true);
-        dispose();
+        // Se construye el JInternalFrame
+        JDialog dialog = new JDialog(this);
+
+        //creo scrollPane con Panel adentro
+        JScrollPane scrollPane = new JScrollPane(new IntAdminProducto());
+        dialog.add(scrollPane); //añadimos panel a internalFrame
+        // configuramos tamaño del internalFrame con pack()
+        dialog.pack();
+        dialog.setVisible(true);
+        dialog.setResizable(true);
+        dialog.setLocationRelativeTo(null);
     }//GEN-LAST:event_smnuAdminPActionPerformed
 
     private void smnuHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuHistoricoActionPerformed

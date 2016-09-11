@@ -411,7 +411,7 @@ public class IntProductos extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAgregaProd)
@@ -428,7 +428,7 @@ public class IntProductos extends javax.swing.JFrame {
                         .addGap(94, 94, 94)
                         .addComponent(btnMostrarTodo))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 957, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -452,21 +452,12 @@ public class IntProductos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnActualizar)
                     .addComponent(btnAgregaProd))
-                .addGap(28, 28, 28))
+                .addGap(63, 63, 63))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnMostrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodoActionPerformed
-        Productos prods = new Productos();
-        modeloTabla = prods.obtenerTablaProductos();
-        tablaProd.setModel(modeloTabla);
-        txtBuscar.setText("");
-        txtBuscar.requestFocus();
-        titulosTabla();
-    }//GEN-LAST:event_btnMostrarTodoActionPerformed
 
     public void actualizarDatos(){
         Productos prods = new Productos();
@@ -477,81 +468,6 @@ public class IntProductos extends javax.swing.JFrame {
         titulosTabla();
     }
     
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(chCodigo.isSelected()){
-            if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
-                Productos a = new Productos();
-                a.buscarPorCodigoB(txtBuscar.getText());
-                this.modeloTabla = a.creaModelo(a.getProductos().size());
-                tablaProd.setModel(modeloTabla);
-                titulosTabla();
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-            }
-
-        }else if(chNombre.isSelected()){
-            if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
-                Productos a = new Productos();
-                a.buscarPorNombre(txtBuscar.getText());
-                this.modeloTabla = a.creaModelo(a.getProductos().size());
-                tablaProd.setModel(modeloTabla);
-                titulosTabla();
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-            }
-        }
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarActionPerformed
-
-    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if(chCodigo.isSelected()){
-                if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
-                    Productos a = new Productos();
-                    a.buscarPorCodigoB(txtBuscar.getText());
-                    this.modeloTabla = a.creaModelo(a.getProductos().size());
-                    tablaProd.setModel(modeloTabla);
-                    titulosTabla();
-                }else{
-                    JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-                }
-
-            }else if(chNombre.isSelected()){
-                if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
-                    Productos a = new Productos();
-                    a.buscarPorNombre(txtBuscar.getText());
-                    this.modeloTabla = a.creaModelo(a.getProductos().size());
-                    tablaProd.setModel(modeloTabla);
-                    titulosTabla();
-                }else{
-                    JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-                }
-            }
-        }
-    }//GEN-LAST:event_txtBuscarKeyReleased
-
-    private void chCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chCodigoActionPerformed
-        chNombre.setSelected(false);
-        txtBuscar.requestFocus();
-    }//GEN-LAST:event_chCodigoActionPerformed
-
-    private void chNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chNombreActionPerformed
-        chCodigo.setSelected(false);
-        txtBuscar.requestFocus();
-    }//GEN-LAST:event_chNombreActionPerformed
-
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        if(this.tablaProd.getSelectedRow() != -1){
-            String codigo = tablaProd.getValueAt(tablaProd.getSelectedRow(), 0).toString();
-            IntModProd v = new IntModProd(this,codigo);
-            v.setVisible(true);
-            this.setEnabled(false);
-        }
-    }//GEN-LAST:event_btnActualizarActionPerformed
-
     private void tablaProdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProdMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaProdMouseClicked
@@ -670,6 +586,90 @@ public class IntProductos extends javax.swing.JFrame {
     private void mnuOpcionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuOpcionesMouseClicked
         System.exit(0);
     }//GEN-LAST:event_mnuOpcionesMouseClicked
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if(this.tablaProd.getSelectedRow() != -1){
+            String codigo = tablaProd.getValueAt(tablaProd.getSelectedRow(), 0).toString();
+            //IntModProd v = new IntModProd(this,codigo);
+          //  v.setVisible(true);
+            this.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void chNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chNombreActionPerformed
+        chCodigo.setSelected(false);
+        txtBuscar.requestFocus();
+    }//GEN-LAST:event_chNombreActionPerformed
+
+    private void chCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chCodigoActionPerformed
+        chNombre.setSelected(false);
+        txtBuscar.requestFocus();
+    }//GEN-LAST:event_chCodigoActionPerformed
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if(chCodigo.isSelected()){
+                if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
+                    Productos a = new Productos();
+                    a.buscarPorCodigoB(txtBuscar.getText());
+                    this.modeloTabla = a.creaModelo(a.getProductos().size());
+                    tablaProd.setModel(modeloTabla);
+                    titulosTabla();
+                }else{
+                    JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+                }
+
+            }else if(chNombre.isSelected()){
+                if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
+                    Productos a = new Productos();
+                    a.buscarPorNombre(txtBuscar.getText());
+                    this.modeloTabla = a.creaModelo(a.getProductos().size());
+                    tablaProd.setModel(modeloTabla);
+                    titulosTabla();
+                }else{
+                    JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+                }
+            }
+        }
+    }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if(chCodigo.isSelected()){
+            if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
+                Productos a = new Productos();
+                a.buscarPorCodigoB(txtBuscar.getText());
+                this.modeloTabla = a.creaModelo(a.getProductos().size());
+                tablaProd.setModel(modeloTabla);
+                titulosTabla();
+            }else{
+                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            }
+
+        }else if(chNombre.isSelected()){
+            if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
+                Productos a = new Productos();
+                a.buscarPorNombre(txtBuscar.getText());
+                this.modeloTabla = a.creaModelo(a.getProductos().size());
+                tablaProd.setModel(modeloTabla);
+                titulosTabla();
+            }else{
+                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            }
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnMostrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodoActionPerformed
+        Productos prods = new Productos();
+        modeloTabla = prods.obtenerTablaProductos();
+        tablaProd.setModel(modeloTabla);
+        txtBuscar.setText("");
+        txtBuscar.requestFocus();
+        titulosTabla();
+    }//GEN-LAST:event_btnMostrarTodoActionPerformed
 
     private void btnAgregaProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregaProdActionPerformed
         IntAgregarProd ag = new IntAgregarProd();

@@ -39,6 +39,7 @@ public class IntInventario extends javax.swing.JPanel {
         llenarCmbPed(p.obtenerPedidos());
         chNombre.setSelected(true);    
         txtBuscar.requestFocus();
+        tablaProd.setOpaque(false);
         this.prov = new Proveedor();
         this.prov.obtenerProveedores();
         llenarCmbProv(this.prov.getProv());
@@ -90,24 +91,27 @@ public class IntInventario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnBuscar = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        chNombre = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
+        cmbPedido = new javax.swing.JComboBox();
+        chCodigo = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
         btnMostrarTodo = new javax.swing.JButton();
         cmbProv = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProd = new javax.swing.JTable();
-        chCodigo = new javax.swing.JRadioButton();
-        chNombre = new javax.swing.JRadioButton();
-        cmbPedido = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
+        cmbPedido1 = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
+        setMaximumSize(new java.awt.Dimension(764, 457));
+        setMinimumSize(new java.awt.Dimension(764, 457));
+        setPreferredSize(new java.awt.Dimension(764, 457));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,6 +123,45 @@ public class IntInventario extends javax.swing.JPanel {
                 txtBuscarKeyReleased(evt);
             }
         });
+        add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 190, -1));
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, -1, -1));
+
+        chNombre.setText("Nombre");
+        chNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chNombreActionPerformed(evt);
+            }
+        });
+        add(chNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
+
+        jLabel2.setText("Pedido:");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, -1, -1));
+
+        cmbPedido.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbPedidoActionPerformed(evt);
+            }
+        });
+        add(cmbPedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 80, -1));
+
+        chCodigo.setText("Código");
+        chCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chCodigoActionPerformed(evt);
+            }
+        });
+        add(chCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+
+        jLabel1.setText("Proveedor:");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 100, -1, -1));
 
         btnMostrarTodo.setText("Mostrar todo");
         btnMostrarTodo.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +169,7 @@ public class IntInventario extends javax.swing.JPanel {
                 btnMostrarTodoActionPerformed(evt);
             }
         });
+        add(btnMostrarTodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 400, 100, -1));
 
         cmbProv.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbProv.addActionListener(new java.awt.event.ActionListener() {
@@ -133,8 +177,7 @@ public class IntInventario extends javax.swing.JPanel {
                 cmbProvActionPerformed(evt);
             }
         });
-
-        jLabel1.setText("Proveedor:");
+        add(cmbProv, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 90, 80, -1));
 
         tablaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,116 +199,31 @@ public class IntInventario extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tablaProd.setPreferredSize(new java.awt.Dimension(700, 200));
         jScrollPane1.setViewportView(tablaProd);
 
-        chCodigo.setText("Código");
-        chCodigo.addActionListener(new java.awt.event.ActionListener() {
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 730, 260));
+
+        cmbPedido1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbPedido1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chCodigoActionPerformed(evt);
+                cmbPedido1ActionPerformed(evt);
             }
         });
+        add(cmbPedido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 110, -1));
 
-        chNombre.setText("Nombre");
-        chNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chNombreActionPerformed(evt);
-            }
-        });
+        jLabel3.setText("Tipo:");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
-        cmbPedido.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbPedido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbPedidoActionPerformed(evt);
-            }
-        });
+        jButton1.setText("Dar de baja producto");
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 400, 150, -1));
 
-        jLabel2.setText("Pedido:");
+        jButton2.setText(">Excel");
+        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(696, 696, 696)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cmbPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(111, 111, 111))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(chNombre)
-                            .addGap(18, 18, 18)
-                            .addComponent(chCodigo)
-                            .addGap(114, 114, 114)
-                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnBuscar))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 957, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnMostrarTodo)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(cmbProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(442, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(chCodigo)
-                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar)
-                            .addComponent(chNombre))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(13, 13, 13)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cmbProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1))))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnMostrarTodo)
-                    .addContainerGap()))
-        );
+        jButton3.setText("PDF");
+        add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, 40, -1));
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(chCodigo.isSelected()){
-            if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
-                Almacen a = new Almacen();
-                a.buscarPorCodigoB(txtBuscar.getText());
-                this.modeloTabla = a.creaModeloProdA(a.getProductos().size());
-                tablaProd.setModel(modeloTabla);
-                titulosTabla();
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-            }
-
-        }else if(chNombre.isSelected()){
-            if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
-                Almacen a = new Almacen();
-                a.buscarPorNombre(txtBuscar.getText());
-                this.modeloTabla = a.creaModeloProdA(a.getProductos().size());
-                tablaProd.setModel(modeloTabla);
-                titulosTabla();
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-            }
-        }
-    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
@@ -298,30 +256,30 @@ public class IntInventario extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
-    private void btnMostrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodoActionPerformed
-        Almacen a = new Almacen();
-        modeloTabla = a.obtenerTablaProductos();
-        tablaProd.setModel(modeloTabla);
-        titulosTabla();
-        txtBuscar.setText("");
-        cmbPedido.setSelectedIndex(0);
-        txtBuscar.requestFocus();
-    }//GEN-LAST:event_btnMostrarTodoActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if(chCodigo.isSelected()){
+            if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
+                Almacen a = new Almacen();
+                a.buscarPorCodigoB(txtBuscar.getText());
+                this.modeloTabla = a.creaModeloProdA(a.getProductos().size());
+                tablaProd.setModel(modeloTabla);
+                titulosTabla();
+            }else{
+                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            }
 
-    private void cmbProvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProvActionPerformed
-        if(cmbProv.getSelectedIndex()!=0){
-            Almacen a = new Almacen();
-            a.buscarPorProv(cmbProv.getSelectedItem().toString());
-            modeloTabla = a.creaModeloProdA(a.getProductos().size());
-            tablaProd.setModel(modeloTabla);
-            titulosTabla();
+        }else if(chNombre.isSelected()){
+            if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
+                Almacen a = new Almacen();
+                a.buscarPorNombre(txtBuscar.getText());
+                this.modeloTabla = a.creaModeloProdA(a.getProductos().size());
+                tablaProd.setModel(modeloTabla);
+                titulosTabla();
+            }else{
+                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            }
         }
-    }//GEN-LAST:event_cmbProvActionPerformed
-
-    private void chCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chCodigoActionPerformed
-        chNombre.setSelected(false);
-        txtBuscar.requestFocus();
-    }//GEN-LAST:event_chCodigoActionPerformed
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void chNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chNombreActionPerformed
         chCodigo.setSelected(false);
@@ -346,6 +304,35 @@ public class IntInventario extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cmbPedidoActionPerformed
 
+    private void chCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chCodigoActionPerformed
+        chNombre.setSelected(false);
+        txtBuscar.requestFocus();
+    }//GEN-LAST:event_chCodigoActionPerformed
+
+    private void btnMostrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodoActionPerformed
+        Almacen a = new Almacen();
+        modeloTabla = a.obtenerTablaProductos();
+        tablaProd.setModel(modeloTabla);
+        titulosTabla();
+        txtBuscar.setText("");
+        cmbPedido.setSelectedIndex(0);
+        txtBuscar.requestFocus();
+    }//GEN-LAST:event_btnMostrarTodoActionPerformed
+
+    private void cmbProvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProvActionPerformed
+        if(cmbProv.getSelectedIndex()!=0){
+            Almacen a = new Almacen();
+            a.buscarPorProv(cmbProv.getSelectedItem().toString());
+            modeloTabla = a.creaModeloProdA(a.getProductos().size());
+            tablaProd.setModel(modeloTabla);
+            titulosTabla();
+        }
+    }//GEN-LAST:event_cmbProvActionPerformed
+
+    private void cmbPedido1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPedido1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbPedido1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -353,9 +340,14 @@ public class IntInventario extends javax.swing.JPanel {
     private javax.swing.JRadioButton chCodigo;
     private javax.swing.JRadioButton chNombre;
     private javax.swing.JComboBox cmbPedido;
+    private javax.swing.JComboBox cmbPedido1;
     private javax.swing.JComboBox cmbProv;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaProd;
     private javax.swing.JTextField txtBuscar;

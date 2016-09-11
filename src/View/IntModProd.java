@@ -21,12 +21,12 @@ import javax.swing.JPanel;
 public class IntModProd extends javax.swing.JFrame {
     boolean datosValidos = true;
     Producto prod;
-    IntProductos vP;
+    IntAdminProducto vP;
     Utilidades uts;
     /**
      * Creates new form IntModProd
      */
-    public IntModProd(IntProductos vP, String cod) {
+    public IntModProd(IntAdminProducto vP, String cod) {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/img/29.png")).getImage());
         ((JPanel)getContentPane()).setOpaque(fal­se); 
