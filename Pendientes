@@ -1,7 +1,7 @@
-Almacen
+﻿Almacen
    Inventario
-	*buscar por tipo
-	*dar de baja producto -> se pide a que cuenta cargar
++	*buscar por tipo
++	*dar de baja producto -> se pide a que cuenta cargar
 	*errores en combo box pedido y proveedor
         *hacer que se vea bonito
    *Estadísticas
@@ -9,12 +9,12 @@ Almacen
 		*ventas - tipo de producto
 		*margen ganancia - tipo de producto
    Administrar Productos
-	+Mostrar mas vendidos primero
-	+Agregar producto
-		+Seleccionar stock min -> opcion para no configurarlo
-	*Eliminar producto
-	*agregar criterios de búsqueda
-   	*boton Productos por agotarse
+Listo	Mostrar mas vendidos primero
+Listo	Agregar producto
+Listo		Seleccionar stock min -> opcion para no configurarlo
++	*Eliminar producto
++	*agregar criterios de búsqueda
++   	*boton Productos por agotarse
 		mostrar productos que tengan configurado el stock mínimo
 	 	marcar con: verde para los que estan bien
 		      	    rojo agotaos

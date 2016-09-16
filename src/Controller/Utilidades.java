@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import View.IntModProd;
+import View.DialogoModificarProd;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;

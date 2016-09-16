@@ -20,10 +20,16 @@ import javax.swing.table.TableModel;
  */
 public class Almacen {
 
-    private List<Producto> productos;
+    private List<Producto> productos; 
     private Query query;
     private TableModel modelo;
 
+    // constructor - debe tener todo cargado
+     public Almacen() {
+        this.productos = new ArrayList<>();
+        this.obtenerProductos(); // obtengo producto en inventario AQUI ME QUEDE
+    }
+    
     public List<Producto> getProductos() {
         return productos;
     }
@@ -32,9 +38,7 @@ public class Almacen {
         this.productos = productos;
     }
 
-    public Almacen() {
-        this.productos = new ArrayList<>();
-    }
+   
 
     public boolean agregarProd(Producto p) {
         query = new Query();
