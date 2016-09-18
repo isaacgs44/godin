@@ -6,44 +6,47 @@
 package View;
 
 import Controller.Cliente;
-import Controller.Secretaria;
 import Controller.Utilidades;
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.table.TableModel;
+
 /**
  *
  * @author lenovo
  */
 public class DialogoClientesOp extends javax.swing.JDialog {
- private TableModel modeloTabla;
- private Utilidades uts;
+
+    private TableModel modeloTabla;
+    private Utilidades uts;
+    private Frame parent;
+
     /**
      * Creates new form DialogoClientesOp
      */
-    public DialogoClientesOp(java.awt.Frame parent, boolean modal) {
+    public DialogoClientesOp(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-     Cliente c = new Cliente();
+        this.parent=parent;
+        Cliente c = new Cliente();
         c.obtenerClientes();
         this.modeloTabla = c.creaModeloClientes();
         tablaClientes.setModel(modeloTabla);
         titulosTabla();
         txtBuscar.requestFocus();
     }
-    
-     private void titulosTabla(){
+
+    private void titulosTabla() {
         tablaClientes.getColumn(tablaClientes.getColumnName(0)).setHeaderValue(" ");
         tablaClientes.getColumn(tablaClientes.getColumnName(1)).setHeaderValue("Nombre");
         tablaClientes.getColumn(tablaClientes.getColumnName(2)).setHeaderValue("Referencia");
         tablaClientes.getColumn(tablaClientes.getColumnName(3)).setHeaderValue("Dirección");
         tablaClientes.getColumn(tablaClientes.getColumnName(4)).setHeaderValue("Saldo");
         tablaClientes.getColumn(tablaClientes.getColumnName(5)).setHeaderValue("# Compras");
-         
+
         tablaClientes.getColumnModel().getColumn(0).setMaxWidth(0);
         tablaClientes.getColumnModel().getColumn(0).setMinWidth(0);
         tablaClientes.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -193,38 +196,38 @@ public class DialogoClientesOp extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
+        if (Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$", txtBuscar.getText())) {
             Cliente c = new Cliente();
             c.buscarCliente(txtBuscar.getText());
             this.modeloTabla = c.creaModeloClientes();
             tablaClientes.setModel(modeloTabla);
             titulosTabla();
-        }else{
-            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$", txtBuscar.getText())) {
                 Cliente c = new Cliente();
                 c.buscarCliente(txtBuscar.getText());
                 this.modeloTabla = c.creaModeloClientes();
                 tablaClientes.setModel(modeloTabla);
                 titulosTabla();
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            } else {
+                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnRegPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegPagoActionPerformed
-        if(tablaClientes.getSelectedRow() != -1){
+        if (tablaClientes.getSelectedRow() != -1) {
             Integer fila = tablaClientes.getSelectedRow();
-            try{
-                Double monto = Double.parseDouble(JOptionPane.showInputDialog (this, "Monto: ", "Pago",JOptionPane.INFORMATION_MESSAGE));
+            try {
+                Double monto = Double.parseDouble(JOptionPane.showInputDialog(this, "Monto: ", "Pago", JOptionPane.INFORMATION_MESSAGE));
                 Cliente c = new Cliente(tablaClientes.getValueAt(fila, 0).toString());
-                if(c.actualizarSaldo(monto, c, 'p')){
+                if (c.actualizarSaldo(monto, c, 'p')) {
                     Cliente c2 = new Cliente();
                     c2.obtenerClientes();
                     this.modeloTabla = c2.creaModeloClientes();
@@ -232,16 +235,15 @@ public class DialogoClientesOp extends javax.swing.JDialog {
                     titulosTabla();
                     txtBuscar.setText("");
                     uts = new Utilidades();
-                    uts.ventanaInfo(new JFrame(),"Pago registrado", "Aviso");
-                }else{
-                    JOptionPane.showOptionDialog(this, "Monto excede saldo", "No permitido", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+                    uts.ventanaInfo(new JFrame(), "Pago registrado", "Aviso");
+                } else {
+                    JOptionPane.showOptionDialog(this, "Monto excede saldo", "No permitido", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
                 }
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 System.out.println("operacion cancelada");
             }
-        }
-        else{
-            JOptionPane.showOptionDialog(this, "Seleccione un cliente", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione un cliente", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
 
     }//GEN-LAST:event_btnRegPagoActionPerformed
@@ -257,22 +259,21 @@ public class DialogoClientesOp extends javax.swing.JDialog {
     }//GEN-LAST:event_btnMostrarTodoActionPerformed
 
     private void btnRegVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegVentaActionPerformed
-        if(tablaClientes.getSelectedRow() != -1){
+        if (tablaClientes.getSelectedRow() != -1) {
             Integer fila = tablaClientes.getSelectedRow();
-            DialogoSelecVendedor d = new DialogoSelecVendedor(null, true, tablaClientes.getValueAt(fila, 0).toString());
+            DialogoSelecVendedor d = new DialogoSelecVendedor(parent, true, tablaClientes.getValueAt(fila, 0).toString(), this);
             d.pack();
             d.setVisible(true);
             d.setResizable(true);
             d.setLocationRelativeTo(null);
-        }
-        else{
-            JOptionPane.showOptionDialog(this, "Seleccione un cliente", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione un cliente", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
 
     }//GEN-LAST:event_btnRegVentaActionPerformed
 
     private void btnRegVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegVenta1ActionPerformed
-        if(tablaClientes.getSelectedRow() != -1){
+        if (tablaClientes.getSelectedRow() != -1) {
             Integer fila = tablaClientes.getSelectedRow();
             Cliente c = new Cliente(tablaClientes.getValueAt(fila, 0).toString());
             DialogoDevolucion d = new DialogoDevolucion(null, true, c);
@@ -280,9 +281,8 @@ public class DialogoClientesOp extends javax.swing.JDialog {
             d.setVisible(true);
             d.setResizable(true);
             d.setLocationRelativeTo(null);
-        }
-        else{
-            JOptionPane.showOptionDialog(this, "Seleccione un cliente", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione un cliente", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
 
     }//GEN-LAST:event_btnRegVenta1ActionPerformed

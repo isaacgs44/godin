@@ -825,7 +825,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         mnuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Mando Financiero");
+        setTitle("Godin");
         setAutoRequestFocus(false);
         setMinimumSize(new java.awt.Dimension(1000, 600));
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -1131,7 +1131,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_sMnuCerrPeriodoActionPerformed
 
     private void sMnuFinanzasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuFinanzasActionPerformed
-        DialogoMandoFinanciero dialog = new DialogoMandoFinanciero(this, false);
+         DialogoCarga dialog = new DialogoCarga(this, true);
         dialog.pack();
         dialog.setVisible(true);
         dialog.setResizable(true);
@@ -1284,7 +1284,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_sMnuAgregarCtaActionPerformed
 
     private void smnuGraficasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuGraficasActionPerformed
-        // TODO add your handling code here:
+       DialogoEstadisticas dialog = new DialogoEstadisticas(this,false);
+       dialog.pack();
+       dialog.setVisible(true);
+       dialog.setResizable(true);
+       dialog.setLocationRelativeTo(null);
     }//GEN-LAST:event_smnuGraficasActionPerformed
 
     private void smnuEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smnuEstadisticasActionPerformed

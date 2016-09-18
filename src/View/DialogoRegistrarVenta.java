@@ -12,6 +12,7 @@ import Controller.Secretaria;
 import Controller.Utilidades;
 import Controller.Vendedor;
 import Controller.Venta;
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -25,33 +26,38 @@ import javax.swing.table.TableModel;
  * @author lenovo
  */
 public class DialogoRegistrarVenta extends javax.swing.JDialog {
- private Cliente cliente;
+
+    private Cliente cliente;
     private TableModel modeloTabla1;
     private TableModel modeloTabla2;
     private Venta v;
-    private List <Producto> productos; 
+    private List<Producto> productos;
     private Double precioPersonalizado;
     private Vendedor vend;
+    private Frame parent;
+
     /**
      * Creates new form DialogoRegistrarVenta
      */
-    public DialogoRegistrarVenta(java.awt.Frame parent, boolean modal,String idCliente, Vendedor vendedor) {
+    public DialogoRegistrarVenta(java.awt.Frame parent, boolean modal, String idCliente, Vendedor vendedor) {
         super(parent, modal);
-        initComponents();cliente = new Cliente(idCliente);
+        initComponents();
+        this.parent = parent;
+        cliente = new Cliente(idCliente);
         Almacen a = new Almacen();
         a.obtenerProductos();
         this.productos = a.getProductos();
         modeloTabla1 = a.creaModeloProdV1(productos.size());
         tablaProd.setModel(modeloTabla1);
         titulosTabla();
-        v = new Venta();      
+        v = new Venta();
         v.setVendedor(vendedor.getNombre());
         this.vend = vendedor;
         chNombre.setSelected(true);
         txtBuscar.requestFocus();
     }
-    
-    private void titulosTabla(){
+
+    private void titulosTabla() {
         tablaProd.getColumn(tablaProd.getColumnName(0)).setHeaderValue(" ");
         tablaProd.getColumn(tablaProd.getColumnName(1)).setHeaderValue("Nombre");
         tablaProd.getColumn(tablaProd.getColumnName(2)).setHeaderValue("Marca");
@@ -59,19 +65,19 @@ public class DialogoRegistrarVenta extends javax.swing.JDialog {
         tablaProd.getColumn(tablaProd.getColumnName(4)).setHeaderValue("Cantidad");
         tablaProd.getColumn(tablaProd.getColumnName(5)).setHeaderValue("Precio C");
         tablaProd.getColumn(tablaProd.getColumnName(6)).setHeaderValue("Precio V");
-         tablaProd.getColumn(tablaProd.getColumnName(7)).setHeaderValue("pedido");
-         
+        tablaProd.getColumn(tablaProd.getColumnName(7)).setHeaderValue("pedido");
+
         tablaProd.getColumnModel().getColumn(0).setMaxWidth(0);
         tablaProd.getColumnModel().getColumn(0).setMinWidth(0);
         tablaProd.getColumnModel().getColumn(0).setPreferredWidth(0);
         tablaProd.setRowHeight(40);
-       /* 
+        /* 
         tablaProd.getColumnModel().getColumn(0).setMaxWidth(0);
         tablaProd.getColumnModel().getColumn(0).setMinWidth(0);
         tablaProd.getColumnModel().getColumn(0).setPreferredWidth(0);*/
     }
-    
-     private void titulosTabla2(){
+
+    private void titulosTabla2() {
         tablaVenta.getColumn(tablaVenta.getColumnName(0)).setHeaderValue(" ");
         tablaVenta.getColumn(tablaVenta.getColumnName(1)).setHeaderValue("Nombre");
         tablaVenta.getColumn(tablaVenta.getColumnName(2)).setHeaderValue("Marca");
@@ -80,7 +86,7 @@ public class DialogoRegistrarVenta extends javax.swing.JDialog {
         tablaVenta.getColumn(tablaVenta.getColumnName(5)).setHeaderValue("Precio unitario");
         tablaVenta.getColumn(tablaVenta.getColumnName(6)).setHeaderValue("Precio neto");
         tablaVenta.getColumn(tablaVenta.getColumnName(7)).setHeaderValue("Pedido");
-         
+
         tablaVenta.getColumnModel().getColumn(0).setMaxWidth(0);
         tablaVenta.getColumnModel().getColumn(0).setMinWidth(0);
         tablaVenta.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -91,11 +97,11 @@ public class DialogoRegistrarVenta extends javax.swing.JDialog {
         tablaVenta.getColumnModel().getColumn(0).setMinWidth(0);
         tablaVenta.getColumnModel().getColumn(0).setPreferredWidth(0);*/
     }
-public void setPrecioPersonalizado(Double precioPersonalizado) {
+
+    public void setPrecioPersonalizado(Double precioPersonalizado) {
         this.precioPersonalizado = precioPersonalizado;
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -329,26 +335,31 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
         v.setNeto(v.getNeto());
         v.setIdCl(cliente.getId());
 
-        if(v.registrarVenta()){ //se registra venta
+        if (v.registrarVenta()) { //se registra venta
             Almacen a = new Almacen();
             a.actualizarProducto(this.productos); // se actualizan las cantidades en almacen
-            cliente.actualizarSaldo(v.getNeto(),this.cliente,'c'); // se actualiza el saldo del cliente
+            cliente.actualizarSaldo(v.getNeto(), this.cliente, 'c'); // se actualiza el saldo del cliente
             vend.actualizaVentas(vend);
-            JOptionPane.showOptionDialog(this, "Venta finalizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");
+            JOptionPane.showOptionDialog(this, "Venta finalizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
+            DialogoClientesOp dialog = new DialogoClientesOp(parent, false);
+            dialog.pack();
+            dialog.setVisible(true);
+            dialog.setResizable(true);
+            dialog.setLocationRelativeTo(null);
             dispose();
-        }else{
-            JOptionPane.showOptionDialog(this, "Agregue productos", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "Agregue productos", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnCompletarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-, ,]{1,50})$",txtBuscar.getText())){
-            if(chNombre.isSelected()){
+        if (Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-, ,]{1,50})$", txtBuscar.getText())) {
+            if (chNombre.isSelected()) {
                 Almacen a = new Almacen();
                 a.buscarPorNombre(txtBuscar.getText());
-                for(Producto p : a.getProductos()){
-                    for(Producto p1 : productos){
-                        if(p.getId().equals(p1.getId())){
+                for (Producto p : a.getProductos()) {
+                    for (Producto p1 : productos) {
+                        if (p.getId().equals(p1.getId())) {
                             p.setCantidad(p1.getCantidad());
                         }
                     }
@@ -357,12 +368,12 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
                 tablaProd.setModel(modeloTabla1);
                 titulosTabla();
 
-            }else if(chCodigo.isSelected()){
+            } else if (chCodigo.isSelected()) {
                 Almacen a = new Almacen();
                 a.buscarPorCodigoB(txtBuscar.getText());
-                for(Producto p : a.getProductos()){
-                    for(Producto p1 : productos){
-                        if(p.getId().equals(p1.getId())){
+                for (Producto p : a.getProductos()) {
+                    for (Producto p1 : productos) {
+                        if (p.getId().equals(p1.getId())) {
                             p.setCantidad(p1.getCantidad());
                         }
                     }
@@ -371,18 +382,18 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
                 tablaProd.setModel(modeloTabla1);
                 titulosTabla();
 
-            }else{
-                JOptionPane.showOptionDialog(this, "Seleccione una opción", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");
+            } else {
+                JOptionPane.showOptionDialog(this, "Seleccione una opción", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
 
-        }else{
-            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCompletar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompletar1ActionPerformed
-        if(JOptionPane.showConfirmDialog(this, "Desea cancelar la venta ?", "Seleccione una opción", JOptionPane.YES_NO_OPTION) == 0){
+        if (JOptionPane.showConfirmDialog(this, "Desea cancelar la venta ?", "Seleccione una opción", JOptionPane.YES_NO_OPTION) == 0) {
             dispose();
         }
     }//GEN-LAST:event_btnCompletar1ActionPerformed
@@ -392,13 +403,13 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if(chNombre.isSelected()){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (chNombre.isSelected()) {
                 Almacen a = new Almacen();
                 a.buscarPorNombre(txtBuscar.getText());
-                for(Producto p : a.getProductos()){
-                    for(Producto p1 : productos){
-                        if(p.getId().equals(p1.getId())){
+                for (Producto p : a.getProductos()) {
+                    for (Producto p1 : productos) {
+                        if (p.getId().equals(p1.getId())) {
                             p.setCantidad(p1.getCantidad());
                         }
                     }
@@ -407,12 +418,12 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
                 tablaProd.setModel(modeloTabla1);
                 titulosTabla();
 
-            }else if(chCodigo.isSelected()){
+            } else if (chCodigo.isSelected()) {
                 Almacen a = new Almacen();
                 a.buscarPorCodigoB(txtBuscar.getText());
-                for(Producto p : a.getProductos()){
-                    for(Producto p1 : productos){
-                        if(p.getId().equals(p1.getId())){
+                for (Producto p : a.getProductos()) {
+                    for (Producto p1 : productos) {
+                        if (p.getId().equals(p1.getId())) {
                             p.setCantidad(p1.getCantidad());
                         }
                     }
@@ -425,13 +436,13 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if(tablaProd.getSelectedRow() != -1){
+        if (tablaProd.getSelectedRow() != -1) {
             Integer fila = tablaProd.getSelectedRow();
-            if(Integer.parseInt(tablaProd.getValueAt(fila, 4).toString()) > 0){
-                if(chkPrecio.isSelected()){
-                    this.precioPersonalizado = Double.parseDouble(JOptionPane.showInputDialog (this, "Precio de venta: ", "Precio personalizado",JOptionPane.INFORMATION_MESSAGE));
-                    v.agregarAlCarrito(tablaProd.getValueAt(fila, 0).toString(),this.precioPersonalizado);
-                }else{
+            if (Integer.parseInt(tablaProd.getValueAt(fila, 4).toString()) > 0) {
+                if (chkPrecio.isSelected()) {
+                    this.precioPersonalizado = Double.parseDouble(JOptionPane.showInputDialog(this, "Precio de venta: ", "Precio personalizado", JOptionPane.INFORMATION_MESSAGE));
+                    v.agregarAlCarrito(tablaProd.getValueAt(fila, 0).toString(), this.precioPersonalizado);
+                } else {
                     v.agregarAlCarrito(tablaProd.getValueAt(fila, 0).toString());
                 }
                 modeloTabla2 = v.creaModTblList(v.getListaV().size());
@@ -439,9 +450,9 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
                 titulosTabla2();
                 lblNeto.setText(v.getNeto().toString());
 
-                for(Producto p1 : productos){
-                    if(p1.getId().equals(tablaProd.getValueAt(fila, 0).toString())){
-                        p1.setCantidad(p1.getCantidad()-1);
+                for (Producto p1 : productos) {
+                    if (p1.getId().equals(tablaProd.getValueAt(fila, 0).toString())) {
+                        p1.setCantidad(p1.getCantidad() - 1);
                     }
                 }
                 Almacen a = new Almacen();
@@ -451,24 +462,23 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
                 titulosTabla();
                 txtBuscar.setText("");
                 txtBuscar.requestFocus();
-            }else{
-                JOptionPane.showOptionDialog(this, "No hay más existencia", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            } else {
+                JOptionPane.showOptionDialog(this, "No hay más existencia", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
-        }
-        else{
-            JOptionPane.showOptionDialog(this, "Seleccione un producto", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione un producto", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
-        if(tablaVenta.getSelectedRow() != -1){
+        if (tablaVenta.getSelectedRow() != -1) {
             Integer fila = tablaVenta.getSelectedRow();
             v.quitarDlCarrito(tablaVenta.getValueAt(fila, 0).toString());
             modeloTabla2 = v.creaModTblList(v.getListaV().size());
             lblNeto.setText(v.getNeto().toString());
-            for(Producto p1 : productos){
-                if(p1.getId().equals(tablaVenta.getValueAt(fila, 0).toString())){
-                    p1.setCantidad(p1.getCantidad()+1);
+            for (Producto p1 : productos) {
+                if (p1.getId().equals(tablaVenta.getValueAt(fila, 0).toString())) {
+                    p1.setCantidad(p1.getCantidad() + 1);
                 }
             }
             Almacen a = new Almacen();
@@ -479,9 +489,8 @@ public void setPrecioPersonalizado(Double precioPersonalizado) {
             titulosTabla2();
             tablaProd.setModel(modeloTabla1);
             titulosTabla();
-        }
-        else{
-            JOptionPane.showOptionDialog(this, "Seleccione un producto de la venta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "Seleccione un producto de la venta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnQuitarActionPerformed
 

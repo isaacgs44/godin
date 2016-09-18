@@ -202,13 +202,14 @@ public class Secretaria {
     public boolean cierraPeriodo(String fechaF) {
         Historico h = new Historico();
         String periodo = h.getFechaI()+"/"+fechaF;
+        
         //abonarComision(periodo); // abono de comision para aguinaldo
         Double utN = calculaUtPeriodo(); //luego ya calcula utilidad
         registrarIndicadores(periodo);
         registrarUtilidad(utN);
         System.out.println("Utilidad: " + utN);
         System.out.println("Fecha inicio : " + periodo);
-        this.registrarHistorico(periodo); 
+        registrarHistorico(periodo); 
         
         return true;
     }
@@ -229,7 +230,7 @@ public class Secretaria {
         }
         return ingresos - egresos;
     }
-
+/*
     private void abonarComision(String periodo) {
         Vendedor v = new Vendedor();
         List <Vendedor> vends = v.obtenerVendedores();
@@ -268,7 +269,7 @@ public class Secretaria {
             query.Desconectar();
             return 0.0;
         }
-    }
+    }*/
 
     private void registrarHistorico(String periodo) {
         query = new Query();

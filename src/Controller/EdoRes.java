@@ -77,5 +77,18 @@ public class EdoRes {
         
     }
 
+    public Double getUtB() {
+        return utB;
+    }
+
+    public Double getUtN() {
+        return utN;
+    }
+    
+    public Double getMargen(){
+        return (utB/ventas)*100;
+    }
+    
+
     
 }

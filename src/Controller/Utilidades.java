@@ -59,12 +59,12 @@ public class Utilidades {
     }
     
     public String formatDinero(Double cantidad){
-        DecimalFormat df = new DecimalFormat("$ ###,###.##");
+        DecimalFormat df = new DecimalFormat("$###,###.##");
         return df.format(cantidad);
     }
     
      public String formatPorcentaje(Double cantidad){
-        DecimalFormat df = new DecimalFormat("% ##.##");
+        DecimalFormat df = new DecimalFormat("%##.##");
         return df.format(cantidad);
     }
 

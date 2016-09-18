@@ -11,8 +11,10 @@ import Controller.Secretaria;
 import Controller.Utilidades;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Frame;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -27,112 +29,126 @@ import javax.swing.table.TableModel;
  * @author lenovo
  */
 public class DialogoPartidaDoble extends javax.swing.JDialog {
-   private TableModel modelo;
+
+    private TableModel modelo;
     private LibroMayor m;
     private Cuenta cta1;
     private Cuenta cta2;
     private String idCuenta;
     private Boolean datosValidos = false;
+    private JDialog d;
+    private Frame parent;
+
     /**
      * Creates new form DialogoOperacionSimple
      */
-    public DialogoPartidaDoble(java.awt.Frame parent, boolean modal,String idCuenta, String tipo) {
+    public DialogoPartidaDoble(java.awt.Frame parent, boolean modal, String idCuenta, String tipo, JDialog d) {
         super(parent, modal);
         initComponents();
-    this.idCuenta = idCuenta;
+        this.d = d;
+        this.parent = parent;
+        this.idCuenta = idCuenta;
         m = new LibroMayor();
         cta1 = m.obtenerCuenta(idCuenta, tipo);
         lblNomCta.setText(cta1.getNombre());
-        modelo = m.creaModeloCtas(m.obtenerCuentasComp(idCuenta,"abono"));
+        modelo = m.creaModeloCtas(m.obtenerCuentasComp(idCuenta, "abono"));
         tablaCta.setModel(modelo);
         personalizaTabla();
         lblTipo.setText(cta1.obtenerTipo(idCuenta));
         obtenerSigno(idCuenta, "abono");
     }
-    
-    private void obtenerSigno(String idC, String op){
+
+    private void obtenerSigno(String idC, String op) {
         String opc = idC.substring(0, 2);
         String s = "";
-        switch(opc){
-            case "AC": 
-            case "AF": 
-            case "AD": 
-               if(op.equals("abono")){
-                   s = "( - )";
-               }else  if(op.equals("cargo")){
-                   s = "( + )";
-               }
-            break;
+        switch (opc) {
+            case "AC":
+            case "AF":
+            case "AD":
+                if (op.equals("abono")) {
+                    s = "( - )";
+                } else if (op.equals("cargo")) {
+                    s = "( + )";
+                }
+                break;
             case "PC":
             case "PF":
             case "PD":
-                if(op.equals("abono")){
-                   s = "( + )";
-               }else  if(op.equals("cargo")){
-                   s = "( - )";
-               }
-            break;
+                if (op.equals("abono")) {
+                    s = "( + )";
+                } else if (op.equals("cargo")) {
+                    s = "( - )";
+                }
+                break;
             case "CO":
             case "GA":
-                if(op.equals("cargo")){
-                   s = "( + )";
-               }
-            break;
+                if (op.equals("cargo")) {
+                    s = "( + )";
+                }
+                break;
             case "IN":
-                 if(op.equals("abono")){
-                   s = "( + )";
-               }
-            break;
+                if (op.equals("abono")) {
+                    s = "( + )";
+                }
+                break;
             case "CC":
-               if(op.equals("abono")){
-                   s = "( + )";
-               }else  if(op.equals("cargo")){
-                   s = "( - )";
-               }
-           break;
+                if (op.equals("abono")) {
+                    s = "( + )";
+                } else if (op.equals("cargo")) {
+                    s = "( - )";
+                }
+                break;
             default:
                 s = " ";
         }
         lblSigno.setText(s);
     }
-    
-    private void personalizaTabla(){
-         // modificar ancho de columnas de acuerdo al contenido
+
+    private void personalizaTabla() {
+        // modificar ancho de columnas de acuerdo al contenido
         tablaCta.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-         for (int i = 0; i < tablaCta.getColumnCount(); i++) {
+        for (int i = 0; i < tablaCta.getColumnCount(); i++) {
             DefaultTableColumnModel colModel = (DefaultTableColumnModel) tablaCta.getColumnModel();
-            TableColumn col = colModel.getColumn(i);           
-            switch (i){
-                case 0 :  col.setPreferredWidth(130); break;
-                case 1 :  col.setPreferredWidth(480); break;
-                case 2 :  col.setPreferredWidth(150); break;
-                case 3 :  col.setPreferredWidth(150); 
-                         
-                break;
-                   
-            }                       
+            TableColumn col = colModel.getColumn(i);
+            switch (i) {
+                case 0:
+                    col.setPreferredWidth(130);
+                    break;
+                case 1:
+                    col.setPreferredWidth(480);
+                    break;
+                case 2:
+                    col.setPreferredWidth(150);
+                    break;
+                case 3:
+                    col.setPreferredWidth(150);
+
+                    break;
+
+            }
         }
         tablaCta.setRowHeight(30);
         tablaCta.getColumn(tablaCta.getColumnName(0)).setHeaderValue("ID");
         tablaCta.getColumn(tablaCta.getColumnName(1)).setHeaderValue("Nombre");
         tablaCta.getColumn(tablaCta.getColumnName(2)).setHeaderValue("Tipo");
         tablaCta.getColumn(tablaCta.getColumnName(3)).setHeaderValue("Saldo");
-        
-         tablaCta.setDefaultRenderer(Object.class,   //cambiar colores de tabla
-               new DefaultTableCellRenderer(){
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column){
-                       if(String.valueOf(table.getValueAt(row,0)).length() == 5)  setBackground(Color.decode("#FFDB98"));
-                       else  setBackground(Color.decode("#ADD8E6"));
-                       if(table.getValueAt(row, 3).toString().length() > 0){
-                           this.setHorizontalAlignment(SwingConstants.RIGHT);
-                       }
-                       super.getTableCellRendererComponent(table, value, selected, focused, row, column);
-                       return this;
-                    }
-               });
-    }
-    
 
+        tablaCta.setDefaultRenderer(Object.class, //cambiar colores de tabla
+                new DefaultTableCellRenderer() {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {
+                if (String.valueOf(table.getValueAt(row, 0)).length() == 5) {
+                    setBackground(Color.decode("#FFDB98"));
+                } else {
+                    setBackground(Color.decode("#ADD8E6"));
+                }
+                if (table.getValueAt(row, 3).toString().length() > 0) {
+                    this.setHorizontalAlignment(SwingConstants.RIGHT);
+                }
+                super.getTableCellRendererComponent(table, value, selected, focused, row, column);
+                return this;
+            }
+        });
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -351,20 +367,18 @@ public class DialogoPartidaDoble extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        IntCarga c = new IntCarga();
-        c.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
-        if(cmbTipo.getSelectedIndex() == 0){
+        if (cmbTipo.getSelectedIndex() == 0) {
             lblAbono.setText("Con cargo a:");
             LibroMayor m2 = new LibroMayor();
             TableModel mod = m2.creaModeloCtas(m2.obtenerCuentasComp(this.cta1.getId(), "abono"));
             tablaCta.setModel(mod);
             personalizaTabla();
             obtenerSigno(cta1.getId(), "abono");
-        }else{
+        } else {
             lblAbono.setText("Con abono a:");
             LibroMayor m2 = new LibroMayor();
             TableModel mod = m2.creaModeloCtas(m.obtenerCuentasComp(this.cta1.getId(), "cargo"));
@@ -379,12 +393,11 @@ public class DialogoPartidaDoble extends javax.swing.JDialog {
     }//GEN-LAST:event_txtMontoActionPerformed
 
     private void txtMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyReleased
-        if(Pattern.matches("^([0-9,.]{1,8})$",txtMonto.getText())){
+        if (Pattern.matches("^([0-9,.]{1,8})$", txtMonto.getText())) {
             txtMonto.setBackground(Color.GREEN);
             txtMonto.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtMonto.setForeground(Color.WHITE);
             txtMonto.setBackground(Color.RED);
             this.datosValidos = false;
@@ -392,34 +405,33 @@ public class DialogoPartidaDoble extends javax.swing.JDialog {
     }//GEN-LAST:event_txtMontoKeyReleased
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-, ,]{1,50})$",txtBuscar.getText())){
+        if (Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-, ,]{1,50})$", txtBuscar.getText())) {
             m = new LibroMayor();
             modelo = m.creaModeloCtas(m.buscarCuentasYsub(txtBuscar.getText(), idCuenta));
             tablaCta.setModel(modelo);
             personalizaTabla();
-        }else{
-            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-, ,]{1,50})$",txtBuscar.getText())){
+        if (Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-, ,]{1,50})$", txtBuscar.getText())) {
             m = new LibroMayor();
             modelo = m.creaModeloCtas(m.buscarCuentasYsub(txtBuscar.getText(), idCuenta)); // partida doble -pd
             tablaCta.setModel(modelo);
             personalizaTabla();
-        }else{
-            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtDescKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescKeyReleased
-        if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{3,30})+([ ]{0,1})){1,6}$",txtDesc.getText())){
+        if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{3,30})+([ ]{0,1})){1,6}$", txtDesc.getText())) {
             txtDesc.setBackground(Color.GREEN);
             txtDesc.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtDesc.setForeground(Color.WHITE);
             txtDesc.setBackground(Color.RED);
             this.datosValidos = false;
@@ -427,41 +439,49 @@ public class DialogoPartidaDoble extends javax.swing.JDialog {
     }//GEN-LAST:event_txtDescKeyReleased
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if(datosValidos){
-            if(txtMonto.getText().length()!=0 && txtDesc.getText().length()!=0){
-                if(tablaCta.getSelectedRow() != -1){
+        if (datosValidos) {
+            if (txtMonto.getText().length() != 0 && txtDesc.getText().length() != 0) {
+                if (tablaCta.getSelectedRow() != -1) {
                     Secretaria mary = new Secretaria();
-                    if (cmbTipo.getSelectedItem().toString().equals("Cargo")){
-                        if (mary.registrarOperacion(cta1.getId(), tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), Double.parseDouble(txtMonto.getText()), txtDesc.getText())){
-                            JOptionPane.showOptionDialog(this, "Operación realizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");
+                    if (cmbTipo.getSelectedItem().toString().equals("Cargo")) {
+                        if (mary.registrarOperacion(cta1.getId(), tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), Double.parseDouble(txtMonto.getText()), txtDesc.getText())) {
+                            JOptionPane.showOptionDialog(this, "Operación realizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
+                            d.dispose();
+                            DialogoCarga v = new DialogoCarga(parent, true);
+                            v.setVisible(true);
+                            v.setResizable(false);
+                            v.setAlwaysOnTop(true);
                             dispose();
-                        }else{
-                            JOptionPane.showOptionDialog(this, "Error al insertar operación", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+                        } else {
+                            JOptionPane.showOptionDialog(this, "Error al insertar operación", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
                         }
-                    }else if (cmbTipo.getSelectedItem().toString().equals("Abono")){
-                        if(mary.registrarOperacion(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), cta1.getId(), Double.parseDouble(txtMonto.getText()), txtDesc.getText())){
-                            JOptionPane.showOptionDialog(this, "Operación realizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");
-                            IntCarga c = new IntCarga();
-                            c.setVisible(true);
+                    } else if (cmbTipo.getSelectedItem().toString().equals("Abono")) {
+                        if (mary.registrarOperacion(tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), cta1.getId(), Double.parseDouble(txtMonto.getText()), txtDesc.getText())) {
+                            JOptionPane.showOptionDialog(this, "Operación realizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
+                            d.dispose();
+                            DialogoCarga v = new DialogoCarga(parent, true);
+                            v.setVisible(true);
+                            v.setResizable(false);
+                            v.setAlwaysOnTop(true);
                             dispose();
-                        }else{
-                            JOptionPane.showOptionDialog(this, "Error al insertar operación", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+                        } else {
+                            JOptionPane.showOptionDialog(this, "Error al insertar operación", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
                         }
                     }
 
-                }else{
-                    JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+                } else {
+                    JOptionPane.showOptionDialog(this, "Seleccione una cuenta", "Notificación", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
                 }
-            }else{
-                JOptionPane.showOptionDialog(this, "Campos vacíos", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            } else {
+                JOptionPane.showOptionDialog(this, "Campos vacíos", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
-        }else{
-            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        modelo = m.creaModeloCtas(m.obtenerCuentasComp(idCuenta,"abono"));
+        modelo = m.creaModeloCtas(m.obtenerCuentasComp(idCuenta, "abono"));
         tablaCta.setModel(modelo);
         personalizaTabla();
     }//GEN-LAST:event_jButton1ActionPerformed

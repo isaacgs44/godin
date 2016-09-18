@@ -15,6 +15,7 @@ import Controller.TablaOp;
 import Controller.Utilidades;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
     private List fechas;
     private TableModel modInd;
     private Boolean done;
+    private Frame parent;
 
     /**
      * Creates new form DialogoMandoFinanciero
@@ -50,14 +52,15 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
     public DialogoMandoFinanciero(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.parent=parent;
         d = new LibroDiario();
         m = new LibroMayor();
         balGen = new BalanceGeneral();
-        parte3();
+        done = false;
         parte1();
         parte2();
         parte4();
-
+        parte3();
     }
 
     private void parte1() {
@@ -613,7 +616,7 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1271, Short.MAX_VALUE)
+            .addGap(0, 1189, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -669,11 +672,11 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
                                     .addGap(275, 275, 275)
                                     .addComponent(mostrartodoOp))
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(39, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 690, Short.MAX_VALUE)
+            .addGap(0, 635, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(35, 35, 35)
@@ -711,15 +714,16 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
                             .addComponent(jLabel1)
                             .addComponent(jLabel5)))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBuscar)
-                        .addComponent(mostrartodoOp))
-                    .addContainerGap(35, Short.MAX_VALUE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnBuscar)
+                                .addComponent(mostrartodoOp)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addContainerGap(27, Short.MAX_VALUE)))
         );
 
         pack();
@@ -757,7 +761,7 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
             if (tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString().length() < 6) { //es cuenta principal
                 try {
                     if (tablaCta.getValueAt(tablaCta.getSelectedRow() + 1, 0).toString().length() < 6) {
-                        DialogoOperacionSimple d = new DialogoOperacionSimple(null, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
+                        DialogoOperacionSimple d = new DialogoOperacionSimple(parent,this, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
                         d.pack();
                         d.setVisible(true);
                         d.setResizable(true);
@@ -768,7 +772,7 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
                     }
                 } catch (Exception c) {
                     System.out.println("ultima cuenta");
-                    DialogoOperacionSimple d = new DialogoOperacionSimple(null, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
+                    DialogoOperacionSimple d = new DialogoOperacionSimple(parent,this, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
                     d.pack();
                     d.setVisible(true);
                     d.setResizable(true);
@@ -776,7 +780,7 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
                 }
 
             } else { // es sub cuenta
-                DialogoOperacionSimple d = new DialogoOperacionSimple(null, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
+                DialogoOperacionSimple d = new DialogoOperacionSimple(parent,this, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString());
                 d.pack();
                 d.setVisible(true);
                 d.setResizable(true);
@@ -829,7 +833,7 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
             if (tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString().length() < 6) { //es cuenta principal
                 try {
                     if (tablaCta.getValueAt(tablaCta.getSelectedRow() + 1, 0).toString().length() < 6) {
-                        DialogoPartidaDoble d = new DialogoPartidaDoble(null, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "c");
+                        DialogoPartidaDoble d = new DialogoPartidaDoble(parent, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "c",this);
                         d.pack();
                         d.setVisible(true);
                         d.setResizable(true);
@@ -840,7 +844,7 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
                     }
                 } catch (Exception c) {
                     System.out.println("ultima cuenta");
-                    DialogoPartidaDoble d = new DialogoPartidaDoble(null, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "c");
+                    DialogoPartidaDoble d = new DialogoPartidaDoble(parent, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "c",this);
                     d.pack();
                     d.setVisible(true);
                     d.setResizable(true);
@@ -848,7 +852,7 @@ public class DialogoMandoFinanciero extends javax.swing.JDialog {
                 }
 
             } else { // es sub cuenta
-                DialogoPartidaDoble d = new DialogoPartidaDoble(null, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "s");
+                DialogoPartidaDoble d = new DialogoPartidaDoble(parent, true, tablaCta.getValueAt(tablaCta.getSelectedRow(), 0).toString(), "s",this);
                 d.pack();
                 d.setVisible(true);
                 d.setResizable(true);

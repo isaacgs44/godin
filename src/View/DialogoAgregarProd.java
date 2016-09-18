@@ -348,7 +348,7 @@ public class DialogoAgregarProd extends javax.swing.JDialog {
 
                 this.prod = new Producto(this.codigoB, txtNombre.getText(), txtMarca.getText(), cmbTipo.getSelectedItem().toString(), Double.parseDouble(txtPrecioC.getText()), Double.parseDouble(txtPrecioV.getText()));
                 this.prod.setCantidad(Integer.parseInt(txtCantidad.getText()));
-                if (radStock_si.isEnabled()) {
+                if (radStock_si.isSelected()) {
                     this.prod.setStockMin(Integer.parseInt(stockMin.getText()));
                 }
                 if (vReg != null) {
@@ -382,8 +382,6 @@ public class DialogoAgregarProd extends javax.swing.JDialog {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
-        vReg.setTxtCodigoB("");
-        vReg.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,10 +6,10 @@
 package View;
 
 import Controller.Vendedor;
+import java.awt.Frame;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import javax.swing.JDialog;
 
 /**
  *
@@ -19,13 +19,17 @@ public class DialogoSelecVendedor extends javax.swing.JDialog {
 
     private String idCl;
     private List<Vendedor> vendedores;
+    private JDialog d;
+    private Frame parent;
 
     /**
      * Creates new form DialogoSelecVendedor
      */
-    public DialogoSelecVendedor(java.awt.Frame parent, boolean modal, String idCl) {
+    public DialogoSelecVendedor(java.awt.Frame parent, boolean modal, String idCl,JDialog d) {
         super(parent, modal);
         initComponents();
+        this.parent=parent;
+        this.d = d;
         this.idCl = idCl;
         Vendedor v = new Vendedor();
         this.vendedores = v.obtenerVendedores();
@@ -103,15 +107,15 @@ public class DialogoSelecVendedor extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbVend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(51, 51, 51)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -128,7 +132,8 @@ public class DialogoSelecVendedor extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         dispose();
-        DialogoRegistrarVenta d = new DialogoRegistrarVenta(null, true, idCl,vendedores.get(cmbVend.getSelectedIndex()));
+        this.d.dispose();
+        DialogoRegistrarVenta d = new DialogoRegistrarVenta(parent, true, idCl,vendedores.get(cmbVend.getSelectedIndex()));
         d.pack();
         d.setVisible(true);
         d.setResizable(true);

@@ -7,67 +7,76 @@ package View;
 
 import Controller.Secretaria;
 import java.awt.Color;
+import java.awt.Frame;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 /**
  *
  * @author lenovo
  */
 public class DialogoOperacionSimple extends javax.swing.JDialog {
- private Boolean datosValidos = false;
+
+    private Boolean datosValidos = false;
     private String idCta;
+    private Frame parent;
+    private JDialog d;
+
     /**
      * Creates new form DialogoOperacionSimple
      */
-    public DialogoOperacionSimple(java.awt.Frame parent, boolean modal,String idCta) {
+    public DialogoOperacionSimple(Frame parent, JDialog d, boolean modal, String idCta) {
         super(parent, modal);
-        initComponents(); this.idCta = idCta;
-         obtenerSigno(this.idCta, "cargo");
+        initComponents();
+        this.idCta = idCta;
+        this.parent = parent;
+        this.d = d;
+        obtenerSigno(this.idCta, "cargo");
     }
 
-    
-    private void obtenerSigno(String idC, String op){
+    private void obtenerSigno(String idC, String op) {
         String opc = idC.substring(0, 2);
         String s = "";
-        switch(opc){
-            case "AC": 
-            case "AF": 
-            case "AD": 
-               if(op.equals("abono")){
-                   s = "( - )";
-               }else  if(op.equals("cargo")){
-                   s = "( + )";
-               }
-            break;
+        switch (opc) {
+            case "AC":
+            case "AF":
+            case "AD":
+                if (op.equals("abono")) {
+                    s = "( - )";
+                } else if (op.equals("cargo")) {
+                    s = "( + )";
+                }
+                break;
             case "PC":
             case "PF":
             case "PD":
-                if(op.equals("abono")){
-                   s = "( + )";
-               }else  if(op.equals("cargo")){
-                   s = "( - )";
-               }
-            break;
+                if (op.equals("abono")) {
+                    s = "( + )";
+                } else if (op.equals("cargo")) {
+                    s = "( - )";
+                }
+                break;
             case "CO":
             case "GA":
-                if(op.equals("cargo")){
-                   s = "( + )";
-               }
-            break;
+                if (op.equals("cargo")) {
+                    s = "( + )";
+                }
+                break;
             case "IN":
-                 if(op.equals("abono")){
-                   s = "( + )";
-               }
-            break;
+                if (op.equals("abono")) {
+                    s = "( + )";
+                }
+                break;
             case "CC":
-               if(op.equals("abono")){
-                   s = "( + )";
-               }else  if(op.equals("cargo")){
-                   s = "( - )";
-               }
-           break;
+                if (op.equals("abono")) {
+                    s = "( + )";
+                } else if (op.equals("cargo")) {
+                    s = "( - )";
+                }
+                break;
             default:
                 s = " ";
         }
@@ -197,20 +206,19 @@ public class DialogoOperacionSimple extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
-        if(cmbTipo.getSelectedIndex() == 0){
+        if (cmbTipo.getSelectedIndex() == 0) {
             obtenerSigno(this.idCta, "cargo");
-        }else{
+        } else {
             obtenerSigno(this.idCta, "abono");
         }
     }//GEN-LAST:event_cmbTipoActionPerformed
 
     private void txtDescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyReleased
-        if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,15})([ ]{0,1})*){1,6}$",txtDescripcion.getText())){
+        if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z]{1,15})([ ]{0,1})*){1,6}$", txtDescripcion.getText())) {
             txtDescripcion.setBackground(Color.GREEN);
             txtDescripcion.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtDescripcion.setForeground(Color.WHITE);
             txtDescripcion.setBackground(Color.RED);
             this.datosValidos = false;
@@ -218,40 +226,48 @@ public class DialogoOperacionSimple extends javax.swing.JDialog {
     }//GEN-LAST:event_txtDescripcionKeyReleased
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if(datosValidos){
-            if(txtMonto.getText().length()!=0 && txtDescripcion.getText().length()!=0){
+        if (datosValidos) {
+            if (txtMonto.getText().length() != 0 && txtDescripcion.getText().length() != 0) {
                 Secretaria mary;
                 switch (cmbTipo.getSelectedItem().toString()) {
                     case "Cargo":
-                    mary = new Secretaria();
-                    if (mary.registrarOperacionSimple(this.idCta, Double.parseDouble(txtMonto.getText()), txtDescripcion.getText(),"c")){
-                        JOptionPane.showOptionDialog(this, "Operación realizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");
-                        dispose();
-                    }else{
-                        JOptionPane.showOptionDialog(this, "Error al insertar operación", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-                    }   break;
+                        mary = new Secretaria();
+                        if (mary.registrarOperacionSimple(this.idCta, Double.parseDouble(txtMonto.getText()), txtDescripcion.getText(), "c")) {
+                            JOptionPane.showOptionDialog(this, "Operación realizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
+                            d.dispose();
+                            DialogoCarga v = new DialogoCarga(parent, true);
+                            v.setVisible(true);
+                            v.setResizable(false);
+                            v.setAlwaysOnTop(true);
+                            dispose();
+                        } else {
+                            JOptionPane.showOptionDialog(this, "Error al insertar operación", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+                        }
+                        break;
                     case "Abono":
-                    mary = new Secretaria();
-                    if (mary.registrarOperacionSimple(this.idCta, Double.parseDouble(txtMonto.getText()), txtDescripcion.getText(),"a")){
-                        JOptionPane.showOptionDialog(this, "Operación realizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "},"OK");
-                        IntCarga c = new IntCarga();
-                        c.setVisible(true);
-                        dispose();
-                    }else{
-                        JOptionPane.showOptionDialog(this, "Error al insertar operación", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-                    }   break;
+                        mary = new Secretaria();
+                        if (mary.registrarOperacionSimple(this.idCta, Double.parseDouble(txtMonto.getText()), txtDescripcion.getText(), "a")) {
+                            JOptionPane.showOptionDialog(this, "Operación realizada", "Notificación", JOptionPane.INFORMATION_MESSAGE, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{" OK "}, "OK");
+                            d.dispose();
+                            DialogoCarga v = new DialogoCarga(parent, true);
+                            v.setVisible(true);
+                            v.setResizable(false);
+                            v.setAlwaysOnTop(true);
+                            dispose();
+                        } else {
+                            JOptionPane.showOptionDialog(this, "Error al insertar operación", "Error", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+                        }
+                        break;
                 }
-            }else{
-                JOptionPane.showOptionDialog(this, "Campos vacíos", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+            } else {
+                JOptionPane.showOptionDialog(this, "Campos vacíos", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
             }
-        }else{
-            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+        } else {
+            JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        IntCarga c = new IntCarga();
-        c.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -260,12 +276,11 @@ public class DialogoOperacionSimple extends javax.swing.JDialog {
     }//GEN-LAST:event_txtMontoActionPerformed
 
     private void txtMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyReleased
-        if(Pattern.matches("^([0-9]{1,10})(([.]{1})([0-9]{1,2}))*$",txtMonto.getText())){
+        if (Pattern.matches("^([0-9]{1,10})(([.]{1})([0-9]{1,2}))*$", txtMonto.getText())) {
             txtMonto.setBackground(Color.GREEN);
             txtMonto.setForeground(Color.BLACK);
             this.datosValidos = true;
-        }
-        else{
+        } else {
             txtMonto.setForeground(Color.WHITE);
             txtMonto.setBackground(Color.RED);
             this.datosValidos = false;

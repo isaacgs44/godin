@@ -30,7 +30,8 @@ public class DialogoEstadoResultados extends javax.swing.JDialog {
      */
     public DialogoEstadoResultados(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents(); llenarCmbPeriodos();
+        initComponents(); 
+        llenarCmbPeriodos();
         
     }
     
