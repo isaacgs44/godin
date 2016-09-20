@@ -230,7 +230,7 @@ public class Cliente {
     
     
     public List <Cliente> obtenerClientes(){
-        this.query = new Query();
+        query = new Query();
         this.clientes.clear();
         ResultSet res; 
         if(!query.seleccion("*","cliente")){

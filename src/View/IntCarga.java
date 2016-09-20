@@ -17,12 +17,12 @@ import javax.swing.JPanel;
  * @author lenovo
  */
 public class IntCarga extends javax.swing.JFrame {
-   IntCuentas v;
+   //IntCuentas v;
     /**
      * Creates new form IntCarga
      */
     public IntCarga() {
-        initComponents();
+      /*  initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/img/29.png")).getImage());
         ((JPanel)getContentPane()).setOpaque(fal­se); 
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -39,8 +39,8 @@ public class IntCarga extends javax.swing.JFrame {
         Boolean bandera = true;
         @Override
         public void run() {
-            v = new IntCuentas();
-            v.setVisible(false);
+      /*      v = new IntCuentas();
+        //    v.setVisible(false);
 
             while(bandera){
                     try {
@@ -73,7 +73,7 @@ public class IntCarga extends javax.swing.JFrame {
             }
             
         });
-        t.start();
+        t.start();*/
     }
 
     /**
@@ -160,7 +160,7 @@ public class IntCarga extends javax.swing.JFrame {
     private javax.swing.JLabel txtCarga;
     // End of variables declaration//GEN-END:variables
 
-    public void terminar(IntCuentas c) {
+ /*   public void terminar(IntCuentas c) {
         setCursor(null); //turn off the wait cursor
         barraP.setIndeterminate(false);
         
@@ -180,7 +180,7 @@ public class IntCarga extends javax.swing.JFrame {
                   /*  try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
-                    }*/
+                    }
                     x++;
                 }
             }
@@ -188,5 +188,5 @@ public class IntCarga extends javax.swing.JFrame {
         //Se ejecuta el Thread
         t.start();
         
-    }
+    }*/
 }

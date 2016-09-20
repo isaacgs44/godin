@@ -24,8 +24,8 @@ public class DialogoSeleccionarProv extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.prov = new Proveedor();
-        this.prov.obtenerProveedores();
-        llenarCmbProv(this.prov.getProv());
+       /* this.prov.obtenerProveedores();
+        llenarCmbProv(this.prov.getProv());*/
 
     }
 
@@ -117,7 +117,7 @@ public class DialogoSeleccionarProv extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
-        DialogoRegistrarPedido d = new DialogoRegistrarPedido(null, true, this.prov.getProv().get(cmbProv.getSelectedIndex()));
+        DialogoRegistrarPedido d = new DialogoRegistrarPedido(null, true, this.prov.getProveedores().get(cmbProv.getSelectedIndex()));
         d.pack();
         d.setVisible(true);
         d.setResizable(true);

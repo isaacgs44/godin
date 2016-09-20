@@ -33,7 +33,7 @@ public class DialogoAdministrarProv extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         Proveedor p = new Proveedor();
-        this.modeloTabla = p.obtenerProveedores();
+      //  this.modeloTabla = p.obtenerProveedores();
 
         tablProv.setModel(modeloTabla);
         titulosTabla();
@@ -184,7 +184,7 @@ public class DialogoAdministrarProv extends javax.swing.JDialog {
 
     private void btnMostrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodoActionPerformed
         Proveedor p = new Proveedor();
-        this.modeloTabla = p.obtenerProveedores();
+     //   this.modeloTabla = p.obtenerProveedores();
         tablProv.setModel(modeloTabla);
         titulosTabla();
         txtBuscar.setText("");

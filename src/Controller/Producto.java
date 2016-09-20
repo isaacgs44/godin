@@ -22,6 +22,7 @@ public class Producto {
     private Integer numVentas;
     private Integer stockMin;
     private Boolean nuevo;
+    
   
     
     public Producto(String codB, String nombre, String marca, String tipo, Double precioC, Double precioV){

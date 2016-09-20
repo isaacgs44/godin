@@ -27,6 +27,7 @@ public class TablaAlmacen extends AbstractTableModel {
                                 "Precio V",
                                 "Pedido"};
                 this.columnNames=columnNames2;
+               
     }
     
 boolean[] canEdit2 = new boolean [] {

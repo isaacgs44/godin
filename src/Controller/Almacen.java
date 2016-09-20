@@ -26,8 +26,8 @@ public class Almacen {
 
     // constructor - debe tener todo cargado
      public Almacen() {
-        this.productos = new ArrayList<>();
-        this.obtenerProductos(); // obtengo producto en inventario AQUI ME QUEDE
+        productos = new ArrayList<>();
+        obtenerProductos(); // obtengo producto en inventario AQUI ME QUEDE
     }
     
     public List<Producto> getProductos() {
@@ -37,8 +37,6 @@ public class Almacen {
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
     }
-
-   
 
     public boolean agregarProd(Producto p) {
         query = new Query();
@@ -105,8 +103,16 @@ public class Almacen {
 
     }
 
-    public void buscarPorNombre(String nombre) {
-        query = new Query();
+    public List<Producto> buscarPorNombre(String nombre) {
+        List<Producto> prods = new ArrayList<>();
+        for(Producto p : productos){
+            if(p.getNombre().contains(nombre) || p.getMarca().contains(nombre)){
+                prods.add(p);
+            }
+        }
+        return prods;
+        
+        /*query = new Query();
         ResultSet res;
         this.productos.clear();
         String consulta = "SELECT producto.codB_prod, producto.nombre_prod, producto.marca_prod, producto.tipo_prod, "
@@ -135,12 +141,19 @@ public class Almacen {
             } catch (SQLException ex) {
                 Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }*/
     }
 
     //busca en los productos del almacen
-    public void buscarPorCodigoB(String cod) {
-        query = new Query();
+    public List<Producto> buscarPorCodigoB(String cod) {
+        List<Producto> prods = new ArrayList<>();
+        for(Producto p : productos){
+            if(p.getCodigoBarras().equals(cod)){
+                prods.add(p);
+            }
+        }
+        return prods;
+       /* query = new Query();
         ResultSet res;
         this.productos.clear();
         String consulta = "SELECT producto.codB_prod, producto.nombre_prod, producto.marca_prod, producto.tipo_prod, "
@@ -170,11 +183,13 @@ public class Almacen {
                 Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        query.Desconectar();
+        query.Desconectar();*/
     }
 
-    public void buscarPorProv(String prov) {
-        query = new Query();
+    public void buscarPorProv(String prov,List<Pedido> pedidos) {
+      //lenar productos con objeto proveedor desde la consulta
+        
+    /*    query = new Query();
         ResultSet res;
         this.productos.clear();
         String consulta = "SELECT producto.codB_prod, producto.nombre_prod, producto.marca_prod, producto.tipo_prod, "
@@ -204,7 +219,7 @@ public class Almacen {
                 Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        query.Desconectar();
+        query.Desconectar();*/
     }
 
     //Busca dentro la tabla producto
@@ -238,8 +253,8 @@ public class Almacen {
     }
 
     public List<Producto> obtenerProductos() {
-        this.query = new Query();
-        this.productos.clear();
+        query = new Query();
+        productos.clear();
         ResultSet res;
 
         String consulta = "SELECT producto.codB_prod, producto.nombre_prod, producto.marca_prod, producto.tipo_prod, "
@@ -252,7 +267,6 @@ public class Almacen {
 
             try {
                 res = query.getRes();
-
                 while (res.next()) {
                     Producto prod = new Producto();
                     prod.setCodigoBarras(res.getString("codB_prod"));
@@ -266,24 +280,25 @@ public class Almacen {
                     prod.setNumVentas(Integer.parseInt(res.getString("ventas_prod")));
                     prod.setNumVentas(Integer.parseInt(res.getString("stockMin_prod")));
                     prod.setCantidad(Integer.parseInt(res.getString("cant_alm")));
-                    this.productos.add(prod);
+                    productos.add(prod);
                 }
                 query.Desconectar();
-                return this.productos;
+                return productos;
 
             } catch (SQLException ex) {
                 Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+                query.Desconectar();
             }
         }
         query.Desconectar();
         return null;
     }
-
+/*
     public TableModel obtenerTablaProductos() {
         obtenerProductos();
         return creaModeloProdA(productos.size());
 
-    }
+    }*/
 
     public TableModel creaModeloProdA(Integer filas) {
         TablaAlmacen modelo1 = new TablaAlmacen(filas);  //numero de filas del ResultSet como parametro del constructor
@@ -303,6 +318,7 @@ public class Almacen {
         this.modelo = modelo1;
         return this.modelo;
     }
+    
 
     public TableModel creaModeloProdV1(Integer filas) {
         TablaVenta modelo1 = new TablaVenta(filas);  //numero de filas del ResultSet como parametro del constructor
@@ -357,8 +373,16 @@ public class Almacen {
 
     }
 
-    public void buscarPorPedido(String ped) {
-        query = new Query();
+    public List<Producto> buscarPorPedido(String ped) {
+        List<Producto> resultado = new ArrayList<>();
+        for(Producto p : productos){
+            if(p.getIdPedido().toString().equals(ped)){
+                resultado.add(p);
+            }
+        }
+        return resultado;
+        
+    /*    query = new Query();
         ResultSet res;
         this.productos.clear();
         String consulta = "SELECT producto.codB_prod, producto.nombre_prod, producto.marca_prod, producto.tipo_prod, "
@@ -387,7 +411,7 @@ public class Almacen {
                 Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        query.Desconectar();
+        query.Desconectar();*/
     }
 
     public boolean regPedido(Pedido pedido) {

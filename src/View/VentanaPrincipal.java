@@ -5,6 +5,9 @@
  */
 package View;
 
+import Controller.Almacen;
+import Controller.Pedido;
+import Controller.Proveedor;
 import Controller.Secretaria;
 import Controller.Utilidades;
 import java.awt.Color;
@@ -32,9 +35,12 @@ import javax.swing.plaf.basic.BasicPopupMenuUI;
  * @author lenovo
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-
-    JLabel fondo;
-    ImageIcon imagen;
+    private Almacen almacen;
+    private Pedido pedido;
+    private Proveedor prov;
+    
+    private JLabel fondo;
+    private ImageIcon imagen;
 
     /**
      * Creates new form IntCuentas
@@ -79,7 +85,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         fondo.setSize(imagen.getIconWidth(), imagen.getIconHeight());//termina codigo de fondo 
 
         personalizarMenu();
-        this.setExtendedState(MAXIMIZED_BOTH);
+        this.setExtendedState(MAXIMIZED_BOTH); //maximizamos ventana
+        
+        pedido = new Pedido();
+        almacen = new Almacen();
+        prov = new Proveedor();
     }
 
     private void personalizarMenu() {
@@ -1208,7 +1218,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_sMnuRegPedActionPerformed
 
     private void sMnuInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sMnuInventarioActionPerformed
-        DialogoInventario dialog = new DialogoInventario(this, false);
+        DialogoInventario dialog = new DialogoInventario(false ,this);
         dialog.pack();
         dialog.setVisible(true);
         dialog.setResizable(true);
@@ -1340,6 +1350,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
     }
 
+    public Almacen getAlmacen() {
+        return almacen;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public Proveedor getProveedor() {
+        return prov;
+    }
+
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel18;

@@ -4,11 +4,14 @@
  * and open the template in the editor.
  */
 package View;
+
 import java.util.regex.Pattern;
 import Controller.Almacen;
 import Controller.Pedido;
+import Controller.Producto;
 import Controller.Proveedor;
 import Controller.Secretaria;
+import Controller.TablaAlmacen;
 import Controller.Utilidades;
 import java.awt.event.KeyEvent;
 import java.util.List;
@@ -17,57 +20,67 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.table.TableModel;
+
 /**
  *
  * @author lenovo
  */
 public class DialogoInventario extends javax.swing.JDialog {
-   private TableModel modeloTabla;
+    private VentanaPrincipal vp;
+    private Almacen almacen;
+    private Pedido pedido;
+    
+    private TableModel modeloTabla;
     private Proveedor prov;
+
     /**
      * Creates new form DialogoInventario
      */
-    public DialogoInventario(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();  
-        Almacen a = new Almacen();
-        modeloTabla = a.obtenerTablaProductos();
+    public DialogoInventario(boolean modal, VentanaPrincipal vp) {
+        super(vp, modal);
+        initComponents();
+        almacen = vp.getAlmacen();
+        modeloTabla = creaModeloProdA(almacen.getProductos());
         tablaProd.setModel(modeloTabla);
-        titulosTabla();
-        Pedido p = new Pedido();
-        llenarCmbPed(p.obtenerPedidos());
-        chNombre.setSelected(true);    
-        txtBuscar.requestFocus();
         tablaProd.setOpaque(false);
-        this.prov = new Proveedor();
-        this.prov.obtenerProveedores();
-        llenarCmbProv(this.prov.getProv());
+        titulosTabla();
+        
+        pedido = vp.getPedido();
+        llenarCmbPed(pedido.getPedidos());
+        chNombre.setSelected(true);
+        txtBuscar.requestFocus();
+        
+        prov = vp.getProveedor();
+        llenarCmbProv(prov.getProveedores());
+        
     }
- private void llenarCmbProv(List<Proveedor> proveedores){
-       String[] cadena = new String[proveedores.size()+1];
-        int i=1;
+
+    private void llenarCmbProv(List<Proveedor> proveedores) {
+        String[] cadena = new String[proveedores.size() + 1];
+        int i = 1;
         cadena[0] = "Todos";
-        for(Proveedor p : proveedores){
-           cadena[i]=p.getRazonSocial();
+        for (Proveedor p : proveedores) {
+            cadena[i] = p.getRazonSocial();
             i++;
         }
         cmbProv.setModel(new DefaultComboBoxModel((Object[]) cadena));
     }
-        
-    
-      private void llenarCmbPed(List<Pedido> pedidos){
-       String[] cadena = new String[pedidos.size()+1];
-        int i=1;
+
+    private void llenarCmbPed(List<Pedido> pedidos) {
+        String[] cadena = new String[pedidos.size() + 1];
+        int i = 1;
         cadena[0] = "todo";
-        for(Pedido p : pedidos){
-           cadena[i]=p.getId().toString();
+        for (Pedido p : pedidos) {
+            cadena[i] = p.getId().toString();
             i++;
         }
         cmbPedido.setModel(new DefaultComboBoxModel((Object[]) cadena));
     }
-    
-    private void titulosTabla(){
+
+    private void titulosTabla() {
         tablaProd.getColumn(tablaProd.getColumnName(0)).setHeaderValue(" ");
         tablaProd.getColumn(tablaProd.getColumnName(1)).setHeaderValue("Nombre");
         tablaProd.getColumn(tablaProd.getColumnName(2)).setHeaderValue("Marca");
@@ -76,7 +89,7 @@ public class DialogoInventario extends javax.swing.JDialog {
         tablaProd.getColumn(tablaProd.getColumnName(5)).setHeaderValue("Precio C");
         tablaProd.getColumn(tablaProd.getColumnName(6)).setHeaderValue("Precio V");
         tablaProd.getColumn(tablaProd.getColumnName(7)).setHeaderValue("Pedido");
-        
+
         tablaProd.getColumnModel().getColumn(0).setMaxWidth(0);
         tablaProd.getColumnModel().getColumn(0).setMinWidth(0);
         tablaProd.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -101,13 +114,13 @@ public class DialogoInventario extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         btnMostrarTodo = new javax.swing.JButton();
         cmbProv = new javax.swing.JComboBox();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaProd = new javax.swing.JTable();
         cmbPedido1 = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaProd = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -168,29 +181,6 @@ public class DialogoInventario extends javax.swing.JDialog {
             }
         });
 
-        tablaProd.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Marca", "Tipo", "Cantidad", "Precio C", "Precio V", "Pedido"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tablaProd.setPreferredSize(new java.awt.Dimension(700, 200));
-        jScrollPane1.setViewportView(tablaProd);
-
         cmbPedido1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPedido1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,90 +196,107 @@ public class DialogoInventario extends javax.swing.JDialog {
 
         jButton3.setText("PDF");
 
+        tablaProd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaProd);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 949, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 24, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(10, 10, 10)
-                                    .addComponent(jLabel3))
-                                .addComponent(chCodigo))
-                            .addGap(17, 17, 17)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(10, 10, 10)
-                                    .addComponent(cmbPedido1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(chNombre))
-                            .addGap(50, 50, 50)
-                            .addComponent(btnBuscar)
-                            .addGap(25, 25, 25)
-                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(50, 50, 50)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1))
-                            .addGap(29, 29, 29)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cmbPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cmbProv, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton2)
-                            .addGap(15, 15, 15)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(260, 260, 260)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(10, 10, 10)
-                            .addComponent(btnMostrarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 25, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel3))
+                                    .addComponent(chCodigo))
+                                .addGap(17, 17, 17)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(cmbPedido1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(chNombre))
+                                .addGap(50, 50, 50)
+                                .addComponent(btnBuscar)
+                                .addGap(36, 36, 36)
+                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmbPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbProv, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 963, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(jButton2)
+                        .addGap(15, 15, 15)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(260, 260, 260)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnMostrarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 492, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 43, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addGap(14, 14, 14)
-                            .addComponent(chCodigo))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(cmbPedido1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(8, 8, 8)
-                            .addComponent(chNombre))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(14, 14, 14)
-                            .addComponent(jLabel1))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(cmbPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(8, 8, 8)
-                            .addComponent(cmbProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btnBuscar)
-                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGap(15, 15, 15)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(10, 10, 10)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1)
-                        .addComponent(btnMostrarTodo)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton2)
-                                .addComponent(jButton3))))
-                    .addGap(0, 44, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(14, 14, 14)
+                                .addComponent(chCodigo))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmbPedido1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(chNombre))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnBuscar)
+                                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmbPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(cmbProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(btnMostrarTodo)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3))))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -300,55 +307,31 @@ public class DialogoInventario extends javax.swing.JDialog {
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if(chCodigo.isSelected()){
-                if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
-                    Almacen a = new Almacen();
-                    a.buscarPorCodigoB(txtBuscar.getText());
-                    this.modeloTabla = a.creaModeloProdA(a.getProductos().size());
-                    tablaProd.setModel(modeloTabla);
-                    titulosTabla();
-                }else{
-                    JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-                }
-
-            }else if(chNombre.isSelected()){
-                if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
-                    Almacen a = new Almacen();
-                    a.buscarPorNombre(txtBuscar.getText());
-                    this.modeloTabla = a.creaModeloProdA(a.getProductos().size());
-                    tablaProd.setModel(modeloTabla);
-                    titulosTabla();
-                }else{
-                    JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-                }
-            }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnBuscar.doClick();
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(chCodigo.isSelected()){
-            if(Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$",txtBuscar.getText())){
-                Almacen a = new Almacen();
-                a.buscarPorCodigoB(txtBuscar.getText());
-                this.modeloTabla = a.creaModeloProdA(a.getProductos().size());
-                tablaProd.setModel(modeloTabla);
-                titulosTabla();
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
+          if (chCodigo.isSelected()) {
+                if (Pattern.matches("^([A-Z,Ñ,ñ,a-z,0-9,-]{1,50})$", txtBuscar.getText())) {
+                    modeloTabla = creaModeloProdA(almacen.buscarPorCodigoB(txtBuscar.getText()));
+                    tablaProd.setModel(modeloTabla);
+                    titulosTabla();
+                } else {
+                    JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+                }
+
+            } else if (chNombre.isSelected()) {
+                if (Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$", txtBuscar.getText())) {
+                    modeloTabla = creaModeloProdA(almacen.buscarPorNombre(txtBuscar.getText()));
+                    tablaProd.setModel(modeloTabla);
+                    titulosTabla();
+                } else {
+                    JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "}, "OK");
+                }
             }
 
-        }else if(chNombre.isSelected()){
-            if(Pattern.matches("^(([A-Z,Ñ,ñ,a-z,-]{1,30})([ ]{0,1})*){1,6}$",txtBuscar.getText())){
-                Almacen a = new Almacen();
-                a.buscarPorNombre(txtBuscar.getText());
-                this.modeloTabla = a.creaModeloProdA(a.getProductos().size());
-                tablaProd.setModel(modeloTabla);
-                titulosTabla();
-            }else{
-                JOptionPane.showOptionDialog(this, "No permitido", "Aviso", JOptionPane.ERROR_MESSAGE, JOptionPane.ERROR_MESSAGE, null, new Object[]{" OK "},"OK");
-            }
-        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void chNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chNombreActionPerformed
@@ -357,31 +340,44 @@ public class DialogoInventario extends javax.swing.JDialog {
     }//GEN-LAST:event_chNombreActionPerformed
 
     private void cmbPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPedidoActionPerformed
-        Pedido p = new Pedido();
         System.out.println(cmbPedido.getSelectedIndex());
-        if(cmbPedido.getSelectedIndex() == 0){
-            Almacen a = new Almacen();
-            modeloTabla = a.obtenerTablaProductos();
+        if (cmbPedido.getSelectedIndex() == 0) {
+            modeloTabla = creaModeloProdA(almacen.getProductos());
             tablaProd.setModel(modeloTabla);
             titulosTabla();
-        }else{
-            String id = p.obtenerPedidos().get(cmbPedido.getSelectedIndex()-1).getId().toString();
-            Almacen a = new Almacen();
-            a.buscarPorPedido(id);
-            modeloTabla = a.creaModeloProdA(a.getProductos().size());
+        } else {
+            String id = pedido.getPedidos().get(cmbPedido.getSelectedIndex() - 1).getId().toString();
+            modeloTabla =creaModeloProdA(almacen.buscarPorPedido(id));
             tablaProd.setModel(modeloTabla);
             titulosTabla();
         }
     }//GEN-LAST:event_cmbPedidoActionPerformed
-
+private TableModel creaModeloProdA(List<Producto> productos) {
+        Integer filas = productos.size();
+        TablaAlmacen modelo1 = new TablaAlmacen(filas);  //numero de filas del ResultSet como parametro del constructor
+        int i = 0;
+        Utilidades uts = new Utilidades();
+        for (Producto p1 : productos) {
+            modelo1.setValueAt(p1.getId(), i, 0);
+            modelo1.setValueAt(p1.getNombre(), i, 1);
+            modelo1.setValueAt(p1.getMarca(), i, 2);
+            modelo1.setValueAt(p1.getTipo(), i, 3);
+            modelo1.setValueAt(p1.getCantidad().toString(), i, 4);
+            modelo1.setValueAt(uts.formatDinero(p1.getPrecioC()), i, 5);
+            modelo1.setValueAt(uts.formatDinero(p1.getPrecioV()), i, 6);
+            modelo1.setValueAt(p1.getIdPedido().toString(), i, 7);
+            i++;
+        }
+       
+        return modelo1;
+    }
     private void chCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chCodigoActionPerformed
         chNombre.setSelected(false);
         txtBuscar.requestFocus();
     }//GEN-LAST:event_chCodigoActionPerformed
 
     private void btnMostrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTodoActionPerformed
-        Almacen a = new Almacen();
-        modeloTabla = a.obtenerTablaProductos();
+        modeloTabla = creaModeloProdA(almacen.getProductos());
         tablaProd.setModel(modeloTabla);
         titulosTabla();
         txtBuscar.setText("");
@@ -390,9 +386,9 @@ public class DialogoInventario extends javax.swing.JDialog {
     }//GEN-LAST:event_btnMostrarTodoActionPerformed
 
     private void cmbProvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProvActionPerformed
-        if(cmbProv.getSelectedIndex()!=0){
-            Almacen a = new Almacen();
-            a.buscarPorProv(cmbProv.getSelectedItem().toString());
+        if (cmbProv.getSelectedIndex() != 0) {
+            
+            almacen.buscarPorProv(cmbProv.getSelectedItem().toString(),pedido);
             modeloTabla = a.creaModeloProdA(a.getProductos().size());
             tablaProd.setModel(modeloTabla);
             titulosTabla();
@@ -403,47 +399,7 @@ public class DialogoInventario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbPedido1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogoInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogoInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogoInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogoInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DialogoInventario dialog = new DialogoInventario(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -459,7 +415,7 @@ public class DialogoInventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tablaProd;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
